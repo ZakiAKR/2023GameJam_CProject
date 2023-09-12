@@ -89,6 +89,7 @@ public class TimerManager : MonoBehaviour
             // ゲーム全体の時間を減算していく
             lifeTime -= Time.deltaTime;
 
+            // textに表示するためにint型に変換
             _life = (int)lifeTime;
 
             // ゲーム全体の残り時間を表示する

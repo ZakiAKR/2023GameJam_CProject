@@ -29,32 +29,41 @@ public class TypingManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI _textMondai;
     [SerializeField] TextMeshProUGUI _textRomaji;
 
+    // キーボードを打った回数を測定するための変数
     private int _countMoji;
+
+    // ミスタイピングした数を測定するための変数
     private int _missMoji;
 
+    // 一問分の時間の値を保持するための変数
     public float typeTime;
+    // 一問分の時間を測定するための変数
     private float _typeTime;
+    // 一問分の時間の値をtextで表示するための変数
     private int _type;
 
+    // カウントダウン後に問題と解答を表示したいため、「TimerManager」を取得
     [SerializeField] public TimerManager _timeSystem;
 
-    [SerializeField] TextMeshProUGUI _text;
-
+    // 問題と解答を表示する間隔の変数
     public float intervalWaitMoji;
 
     // Start is called before the first frame update
     void Start()
     {
+        // 初期化
         _typeTime = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
+        // カウントダウン後でかつ、全体の時間内での処理をさせる
         if(_timeSystem.isCountDown&& !_timeSystem.isFinish)
         {
             if (_typeTime >= 0)
             {
+                // 一問分の時間を計測
                 _typeTime -= Time.deltaTime;
             }
             if (_typeTime <= 0)
@@ -79,16 +88,23 @@ public class TypingManager : MonoBehaviour
                     _kaitouIndex++;
                     if (_kaitou[_kaitouIndex] == ' ')
                     {
+                        // 問題の初期化の関数を呼び出し
                         Initi_Question();
                     }
                     else
                     {
+                        // 文字を打った数を測定
                         _countMoji++;
+
+                        // 文字の色を変える
                         _textRomaji.text = Generate_Romaji();
                     }
                     break;
                  case 3:
+                    // ミスタイピングの数を測定
                     _missMoji++;
+
+                    //文字を打った数を測定
                     _countMoji++;
                     break;
             }
@@ -574,6 +590,7 @@ public class TypingManager : MonoBehaviour
     // 問題の初期化の関数
     void Initi_Question()
     {
+        // textの表示を消す
         _textMondai.text = "";
         _textRomaji.text = "";
 
@@ -601,8 +618,10 @@ public class TypingManager : MonoBehaviour
         // 文字列の最期に空白を追加して、「タイピングの終わり」を示す
         _kaitou.Add(' ');
 
+        // 問題と解答の表示するタイミングをずらすためのコルーチン
         StartCoroutine(Display_Wait(question));
 
+        // 一問分の時間を初期化
         _typeTime = typeTime;
     }
 
@@ -635,6 +654,7 @@ public class TypingManager : MonoBehaviour
         return text;
     }
 
+    // 問題と解答を表示する間隔を空けるための関数
     private IEnumerator Display_Wait(Question question)
     {
         yield return new WaitForSeconds(intervalWaitMoji);
