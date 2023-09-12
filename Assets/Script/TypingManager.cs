@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-    // インスペクター上から文字列を変種出来るようにする
+// タイピング部分の処理
+
+// インスペクター上から文字列を変種出来るようにする
 [Serializable]
 public class Question
 {
