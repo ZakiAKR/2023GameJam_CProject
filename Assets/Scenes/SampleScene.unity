@@ -632,7 +632,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "07 Rocknroll : mondai \u554F\u984C\u3082"
+  m_text: "07 Rocknroll : mondai \u554F\u984C\u3082\u3042\u308A"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b107b8af4505822458e677beae32c416, type: 2}
   m_sharedMaterial: {fileID: 6871410942187384133, guid: b107b8af4505822458e677beae32c416,
