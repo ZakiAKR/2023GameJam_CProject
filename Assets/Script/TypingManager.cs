@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 // タイピング部分の処理
@@ -10,39 +11,58 @@ using TMPro;
 [Serializable]
 public class Question
 {
-    public string title;
+    public string mondai;
     public string romaji;
 }
 
 public class TypingManager : MonoBehaviour
 {
     // タイピングの状態を格納するリストの変数
-    private List<char> _romaji = new List<char>();
+    private List<char> _kaitou = new List<char>();
     // リストの配列の要素数で使用されている変数
-    private int _romajiIndex = 0;
+    private int _kaitouIndex = 0;
 
     // インスタンスを生成する
     [SerializeField] Question[] _questions = new Question[12];
 
     // 画面に表示するためのTextMeshProを格納する変数
-    [SerializeField]  TextMeshProUGUI _textTitle;
-    [SerializeField]  TextMeshProUGUI _textRomaji;
+    [SerializeField] TextMeshProUGUI _textMondai;
+    [SerializeField] TextMeshProUGUI _textRomaji;
+
+    private int _countMoji;
+    private int _missMoji;
+
+    public float typeTime;
+    private float _typeTime;
+    private int _type;
+
+    [SerializeField] public TimerManager _timeSystem;
+
+    [SerializeField] TextMeshProUGUI _text;
+
+    public float intervalWaitMoji;
 
     // Start is called before the first frame update
     void Start()
     {
-        // TextMeshProのコンポーネントを取得
-        _textTitle = GetComponent<TextMeshProUGUI>();
-        _textRomaji = GetComponent<TextMeshProUGUI>();
-
-        // 問題の初期化の関数を呼び出し
-        Initi_Question();
+        _typeTime = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if(_timeSystem.isCountDown&& !_timeSystem.isFinish)
+        {
+            if (_typeTime >= 0)
+            {
+                _typeTime -= Time.deltaTime;
+            }
+            if (_typeTime <= 0)
+            {
+                // 問題の初期化の関数を呼び出し
+                Initi_Question();
+            }
+        }
     }
 
     // キー入力時に呼び出されるイベント関数
@@ -50,29 +70,26 @@ public class TypingManager : MonoBehaviour
     {
         if (Event.current.type == EventType.KeyDown)
         {
-            // キーが入力された時の処理
-            Debug.Log("Event.current.type : " + Event.current.type);
-            Debug.Log("EventType.KeyDown : " + EventType.KeyDown);
-            Debug.Log("Event.current.KeyCode : " + Event.current.keyCode);
-            Debug.Log("GetChange_KeyCode(Event.crrent.KeyCode) : " + GetChange_KeyCode(Event.current.keyCode));
-
             // 入力されたキーコードを変換して、変換した文字が正しい文字が判定した結果に酔って処理が変わる
             switch (InputKey(GetChange_KeyCode(Event.current.keyCode)))
             {
                 case 1:
                 case 2:
-                    _romajiIndex++;
-                    if (_romaji[_romajiIndex] == ' ')
+                    // 一つ要素数を加算することでこの文字が空白だった場合、問題を初期化して新しい問題を出す。それ以外は文字の色を変える。
+                    _kaitouIndex++;
+                    if (_kaitou[_kaitouIndex] == ' ')
                     {
                         Initi_Question();
                     }
                     else
                     {
+                        _countMoji++;
                         _textRomaji.text = Generate_Romaji();
                     }
                     break;
                  case 3:
-                    // ミスタイプ時の処理
+                    _missMoji++;
+                    _countMoji++;
                     break;
             }
         }
@@ -81,14 +98,14 @@ public class TypingManager : MonoBehaviour
     //入力が正しいかを判定する関数
     int InputKey(char inputMoji)
     {
-        char prevChar3 = _romajiIndex >= 3 ? _romaji[_romajiIndex - 3] : '\0';
-        char prevChar2 = _romajiIndex >= 2 ? _romaji[_romajiIndex - 2] : '\0';
-        char prevChar = _romajiIndex >= 1 ? _romaji[_romajiIndex - 1] : '\0';
+        char prevChar3 = _kaitouIndex >= 3 ? _kaitou[_kaitouIndex - 3] : '\0';
+        char prevChar2 = _kaitouIndex >= 2 ? _kaitou[_kaitouIndex - 2] : '\0';
+        char prevChar = _kaitouIndex >= 1 ? _kaitou[_kaitouIndex - 1] : '\0';
         
-        char currentMoji = _romaji[_romajiIndex];
+        char currentMoji = _kaitou[_kaitouIndex];
 
-        char nextChar = _romaji[_romajiIndex + 1];
-        char nextChar2 = nextChar == ' ' ? ' ' : _romaji[_romajiIndex + 2];
+        char nextChar = _kaitou[_kaitouIndex + 1];
+        char nextChar2 = nextChar == ' ' ? ' ' : _kaitou[_kaitouIndex + 2];
 
         // 入力が無い場合
         if (inputMoji == '\0')
@@ -107,20 +124,20 @@ public class TypingManager : MonoBehaviour
             (prevChar == '\0' || prevChar == 'a' || prevChar == 'i' || prevChar == 'u' || prevChar == 'e' ||
              prevChar == 'o'))
         {
-            _romaji.Insert(_romajiIndex, 'y');
+            _kaitou.Insert(_kaitouIndex, 'y');
             return 2;
         }
 
         if (inputMoji == 'y' && currentMoji == 'i' && prevChar == 'n' && prevChar2 == 'n' &&
             prevChar3 != 'n')
         {
-            _romaji.Insert(_romajiIndex, 'y');
+            _kaitou.Insert(_kaitouIndex, 'y');
             return 2;
         }
 
         if (inputMoji == 'y' && currentMoji == 'i' && prevChar == 'n' && prevChar2 == 'x')
         {
-            _romaji.Insert(_romajiIndex, 'y');
+            _kaitou.Insert(_kaitouIndex, 'y');
             return 2;
         }
 
@@ -128,26 +145,26 @@ public class TypingManager : MonoBehaviour
         if (inputMoji == 'w' && currentMoji == 'u' && (prevChar == '\0' || prevChar == 'a' || prevChar == 'i' ||
                                                        prevChar == 'u' || prevChar == 'e' || prevChar == 'o'))
         {
-            _romaji.Insert(_romajiIndex, 'w');
+            _kaitou.Insert(_kaitouIndex, 'w');
             return 2;
         }
 
         if (inputMoji == 'w' && currentMoji == 'u' && prevChar == 'n' && prevChar2 == 'n' && prevChar3 != 'n')
         {
-            _romaji.Insert(_romajiIndex, 'w');
+            _kaitou.Insert(_kaitouIndex, 'w');
             return 2;
         }
 
         if (inputMoji == 'w' && currentMoji == 'u' && prevChar == 'n' && prevChar2 == 'x')
         {
-            _romaji.Insert(_romajiIndex, 'w');
+            _kaitou.Insert(_kaitouIndex, 'w');
             return 2;
         }
 
         if (inputMoji == 'h' && prevChar2 != 't' && prevChar2 != 'd' && prevChar == 'w' &&
             currentMoji == 'u')
         {
-            _romaji.Insert(_romajiIndex, 'h');
+            _kaitou.Insert(_kaitouIndex, 'h');
             return 2;
         }
 
@@ -155,35 +172,35 @@ public class TypingManager : MonoBehaviour
         if (inputMoji == 'c' && prevChar != 'k' &&
             currentMoji == 'k' && (nextChar == 'a' || nextChar == 'u' || nextChar == 'o'))
         {
-            _romaji[_romajiIndex] = 'c';
+            _kaitou[_kaitouIndex] = 'c';
             return 2;
         }
 
         //「く」
         if (inputMoji == 'q' && prevChar != 'k' && currentMoji == 'k' && nextChar == 'u')
         {
-            _romaji[_romajiIndex] = 'q';
+            _kaitou[_kaitouIndex] = 'q';
             return 2;
         }
 
         //「し」
         if (inputMoji == 'h' && prevChar == 's' && currentMoji == 'i')
         {
-            _romaji.Insert(_romajiIndex, 'h');
+            _kaitou.Insert(_kaitouIndex, 'h');
             return 2;
         }
 
         //「じ」
         if (inputMoji == 'j' && currentMoji == 'z' && nextChar == 'i')
         {
-            _romaji[_romajiIndex] = 'j';
+            _kaitou[_kaitouIndex] = 'j';
             return 2;
         }
 
         //「しゃ」「しゅ」「しぇ」「しょ」
         if (inputMoji == 'h' && prevChar == 's' && currentMoji == 'y')
         {
-            _romaji[_romajiIndex] = 'h';
+            _kaitou[_kaitouIndex] = 'h';
             return 2;
         }
 
@@ -191,8 +208,8 @@ public class TypingManager : MonoBehaviour
         if (inputMoji == 'z' && prevChar != 'j' && currentMoji == 'j' &&
             (nextChar == 'a' || nextChar == 'u' || nextChar == 'e' || nextChar == 'o'))
         {
-            _romaji[_romajiIndex] = 'z';
-            _romaji.Insert(_romajiIndex + 1, 'y');
+            _kaitou[_kaitouIndex] = 'z';
+            _kaitou.Insert(_kaitouIndex + 1, 'y');
             return 2;
         }
 
@@ -200,36 +217,36 @@ public class TypingManager : MonoBehaviour
         if ( inputMoji == 'c' && prevChar != 's' && currentMoji == 's' &&
             (nextChar == 'i' || nextChar == 'e'))
         {
-            _romaji[_romajiIndex] = 'c';
+            _kaitou[_kaitouIndex] = 'c';
             return 2;
         }
 
         //「ち」
         if (inputMoji == 'c' && prevChar != 't' && currentMoji == 't' && nextChar == 'i')
         {
-            _romaji[_romajiIndex] = 'c';
-            _romaji.Insert(_romajiIndex + 1, 'h');
+            _kaitou[_kaitouIndex] = 'c';
+            _kaitou.Insert(_kaitouIndex + 1, 'h');
             return 2;
         }
 
         //「ちゃ」「ちゅ」「ちぇ」「ちょ」
         if (inputMoji == 'c' && prevChar != 't' && currentMoji == 't' && nextChar == 'y')
         {
-            _romaji[_romajiIndex] = 'c';
+            _kaitou[_kaitouIndex] = 'c';
             return 2;
         }
 
         //「cya」=>「cha」
         if (inputMoji == 'h' && prevChar == 'c' && currentMoji == 'y')
         {
-            _romaji[_romajiIndex] = 'h';
+            _kaitou[_kaitouIndex] = 'h';
             return 2;
         }
 
         //「つ」
         if (inputMoji == 's' && prevChar == 't' && currentMoji == 'u')
         {
-            _romaji.Insert(_romajiIndex, 's');
+            _kaitou.Insert(_kaitouIndex, 's');
             return 2;
         }
 
@@ -237,64 +254,64 @@ public class TypingManager : MonoBehaviour
         if (inputMoji == 'u' && prevChar == 't' && currentMoji == 's' &&
             (nextChar == 'a' || nextChar == 'i' || nextChar == 'e' || nextChar == 'o'))
         {
-            _romaji[_romajiIndex] = 'u';
-            _romaji.Insert(_romajiIndex + 1, 'x');
+            _kaitou[_kaitouIndex] = 'u';
+            _kaitou.Insert(_kaitouIndex + 1, 'x');
             return 2;
         }
 
         if (inputMoji == 'u' && prevChar2 == 't' && prevChar == 's' &&
             (currentMoji == 'a' || currentMoji == 'i' || currentMoji == 'e' || currentMoji == 'o'))
         {
-            _romaji.Insert(_romajiIndex, 'u');
-            _romaji.Insert(_romajiIndex + 1, 'x');
+            _kaitou.Insert(_kaitouIndex, 'u');
+            _kaitou.Insert(_kaitouIndex + 1, 'x');
             return 2;
         }
 
         //「てぃ」
         if (inputMoji == 'e' && prevChar == 't' && currentMoji == 'h' && nextChar == 'i')
         {
-            _romaji[_romajiIndex] = 'e';
-            _romaji.Insert(_romajiIndex + 1, 'x');
+            _kaitou[_kaitouIndex] = 'e';
+            _kaitou.Insert(_kaitouIndex + 1, 'x');
             return 2;
         }
 
         //「でぃ」
         if (inputMoji == 'e' && prevChar == 'd' && currentMoji == 'h' && nextChar == 'i')
         {
-            _romaji[_romajiIndex] = 'e';
-            _romaji.Insert(_romajiIndex + 1, 'x');
+            _kaitou[_kaitouIndex] = 'e';
+            _kaitou.Insert(_kaitouIndex + 1, 'x');
             return 2;
         }
 
         //「でゅ」
         if (inputMoji == 'e' && prevChar == 'd' && currentMoji == 'h' && nextChar == 'u')
         {
-            _romaji[_romajiIndex] = 'e';
-            _romaji.Insert(_romajiIndex + 1, 'x');
-            _romaji.Insert(_romajiIndex + 2, 'y');
+            _kaitou[_kaitouIndex] = 'e';
+            _kaitou.Insert(_kaitouIndex + 1, 'x');
+            _kaitou.Insert(_kaitouIndex + 2, 'y');
             return 2;
         }
 
         //「とぅ」
         if (inputMoji == 'o' && prevChar == 't' && currentMoji == 'w' && nextChar == 'u')
         {
-            _romaji[_romajiIndex] = 'o';
-            _romaji.Insert(_romajiIndex + 1, 'x');
+            _kaitou[_kaitouIndex] = 'o';
+            _kaitou.Insert(_kaitouIndex + 1, 'x');
             return 2;
         }
 
         //「どぅ」
         if (inputMoji == 'o' && prevChar == 'd' && currentMoji == 'w' && nextChar == 'u')
         {
-            _romaji[_romajiIndex] = 'o';
-            _romaji.Insert(_romajiIndex + 1, 'x');
+            _kaitou[_kaitouIndex] = 'o';
+            _kaitou.Insert(_kaitouIndex + 1, 'x');
             return 2;
         }
 
         //「ふ」
         if (inputMoji == 'f' && currentMoji == 'h' && nextChar == 'u')
         {
-            _romaji[_romajiIndex] = 'f';
+            _kaitou[_kaitouIndex] = 'f';
             return 2;
         }
 
@@ -302,13 +319,13 @@ public class TypingManager : MonoBehaviour
         if (inputMoji == 'w' && prevChar == 'f' &&
             (currentMoji == 'a' || currentMoji == 'i' || currentMoji == 'e' || currentMoji == 'o'))
         {
-            _romaji.Insert(_romajiIndex, 'w');
+            _kaitou.Insert(_kaitouIndex, 'w');
             return 2;
         }
 
         if (inputMoji == 'y' && prevChar == 'f' && (currentMoji == 'i' || currentMoji == 'e'))
         {
-            _romaji.Insert(_romajiIndex, 'y');
+            _kaitou.Insert(_kaitouIndex, 'y');
             return 2;
         }
 
@@ -316,9 +333,9 @@ public class TypingManager : MonoBehaviour
             (nextChar == 'a' || nextChar == 'i' || nextChar == 'e' || nextChar == 'o'))
         {
     
-                _romaji[_romajiIndex] = 'h';
-                _romaji.Insert(_romajiIndex + 1, 'u');
-                _romaji.Insert(_romajiIndex + 2, 'x');
+                _kaitou[_kaitouIndex] = 'h';
+                _kaitou.Insert(_kaitouIndex + 1, 'u');
+                _kaitou.Insert(_kaitouIndex + 2, 'x');
 
             return 2;
         }
@@ -326,15 +343,15 @@ public class TypingManager : MonoBehaviour
         if (inputMoji == 'u' && prevChar == 'f' &&
             (currentMoji == 'a' || currentMoji == 'i' || currentMoji == 'e' || currentMoji == 'o'))
         {
-            _romaji.Insert(_romajiIndex, 'u');
-            _romaji.Insert(_romajiIndex + 1, 'x');
+            _kaitou.Insert(_kaitouIndex, 'u');
+            _kaitou.Insert(_kaitouIndex + 1, 'x');
             return 2;
         }
         //「ん」
         if (inputMoji == 'n' && prevChar2 != 'n' && prevChar == 'n' && currentMoji != 'a' && currentMoji != 'i' &&
             currentMoji != 'u' && currentMoji != 'e' && currentMoji != 'o' && currentMoji != 'y')
         {
-            _romaji.Insert(_romajiIndex, 'n');
+            _kaitou.Insert(_kaitouIndex, 'n');
             return 2;
         }
 
@@ -343,11 +360,11 @@ public class TypingManager : MonoBehaviour
         {
             if (nextChar == 'n')
             {
-                _romaji[_romajiIndex] = 'x';
+                _kaitou[_kaitouIndex] = 'x';
             }
             else
             {
-                _romaji.Insert(_romajiIndex, 'x');
+                _kaitou.Insert(_kaitouIndex, 'x');
             }
 
             return 2;
@@ -362,13 +379,13 @@ public class TypingManager : MonoBehaviour
         {
             if (nextChar == 'e')
             {
-                _romaji[_romajiIndex] = 'i';
-                _romaji.Insert(_romajiIndex + 1, 'x');
+                _kaitou[_kaitouIndex] = 'i';
+                _kaitou.Insert(_kaitouIndex + 1, 'x');
             }
             else
             {
-                _romaji.Insert(_romajiIndex, 'i');
-                _romaji.Insert(_romajiIndex + 1, 'x');
+                _kaitou.Insert(_kaitouIndex, 'i');
+                _kaitou.Insert(_kaitouIndex + 1, 'x');
             }
 
             return 2;
@@ -381,14 +398,14 @@ public class TypingManager : MonoBehaviour
         {
             if (nextChar == 'e')
             {
-                _romaji.Insert(_romajiIndex, 'i');
-                _romaji.Insert(_romajiIndex + 1, 'x');
+                _kaitou.Insert(_kaitouIndex, 'i');
+                _kaitou.Insert(_kaitouIndex + 1, 'x');
             }
             else
             {
-                _romaji.Insert(_romajiIndex, 'i');
-                _romaji.Insert(_romajiIndex + 1, 'x');
-                _romaji.Insert(_romajiIndex + 2, 'y');
+                _kaitou.Insert(_kaitouIndex, 'i');
+                _kaitou.Insert(_kaitouIndex + 1, 'x');
+                _kaitou.Insert(_kaitouIndex + 2, 'y');
             }
 
             return 2;
@@ -400,15 +417,15 @@ public class TypingManager : MonoBehaviour
         {
             if (nextChar2 == 'e')
             {
-                _romaji[_romajiIndex] = 'c';
-                _romaji[_romajiIndex + 1] = 'i';
-                _romaji.Insert(_romajiIndex + 1, 'x');
+                _kaitou[_kaitouIndex] = 'c';
+                _kaitou[_kaitouIndex + 1] = 'i';
+                _kaitou.Insert(_kaitouIndex + 1, 'x');
             }
             else
             {
-                _romaji[_romajiIndex] = 'c';
-                _romaji.Insert(_romajiIndex + 1, 'i');
-                _romaji.Insert(_romajiIndex + 2, 'x');
+                _kaitou[_kaitouIndex] = 'c';
+                _kaitou.Insert(_kaitouIndex + 1, 'i');
+                _kaitou.Insert(_kaitouIndex + 2, 'x');
             }
 
             return 2;
@@ -422,9 +439,9 @@ public class TypingManager : MonoBehaviour
              currentMoji == 'd' && nextChar == 'd' || currentMoji == 'b' && nextChar == 'b' ||
              currentMoji == 'p' && nextChar == 'p'))
         {
-            _romaji[_romajiIndex] = inputMoji;
-            _romaji.Insert(_romajiIndex + 1, 't');
-            _romaji.Insert(_romajiIndex + 2, 'u');
+            _kaitou[_kaitouIndex] = inputMoji;
+            _kaitou.Insert(_kaitouIndex + 1, 't');
+            _kaitou.Insert(_kaitouIndex + 2, 'u');
             return 2;
         }
 
@@ -432,16 +449,16 @@ public class TypingManager : MonoBehaviour
         if ( inputMoji == 'c' && currentMoji == 'k' && nextChar == 'k' &&
             (nextChar2 == 'a' || nextChar2 == 'u' || nextChar2 == 'o'))
         {
-            _romaji[_romajiIndex] = 'c';
-            _romaji[_romajiIndex + 1] = 'c';
+            _kaitou[_kaitouIndex] = 'c';
+            _kaitou[_kaitouIndex + 1] = 'c';
             return 2;
         }
 
         //「っく」
         if ( inputMoji == 'q' && currentMoji == 'k' && nextChar == 'k' && nextChar2 == 'u')
         {
-            _romaji[_romajiIndex] = 'q';
-            _romaji[_romajiIndex + 1] = 'q';
+            _kaitou[_kaitouIndex] = 'q';
+            _kaitou[_kaitouIndex + 1] = 'q';
             return 2;
         }
 
@@ -449,38 +466,38 @@ public class TypingManager : MonoBehaviour
         if (inputMoji == 'c' && currentMoji == 's' && nextChar == 's' &&
         (nextChar2 == 'i' || nextChar2 == 'e'))
         {
-            _romaji[_romajiIndex] = 'c';
-            _romaji[_romajiIndex + 1] = 'c';
+            _kaitou[_kaitouIndex] = 'c';
+            _kaitou[_kaitouIndex + 1] = 'c';
             return 2;
         }
 
         //「っちゃ」「っちゅ」「っちぇ」「っちょ」
         if (inputMoji == 'c' && currentMoji == 't' && nextChar == 't' && nextChar2 == 'y')
         {
-            _romaji[_romajiIndex] = 'c';
-            _romaji[_romajiIndex + 1] = 'c';
+            _kaitou[_kaitouIndex] = 'c';
+            _kaitou[_kaitouIndex + 1] = 'c';
             return 2;
         }
 
         //「っち」
         if (inputMoji == 'c' && currentMoji == 't' && nextChar == 't' && nextChar2 == 'i')
         {
-            _romaji[_romajiIndex] = 'c';
-            _romaji[_romajiIndex + 1] = 'c';
-            _romaji.Insert(_romajiIndex + 2, 'h');
+            _kaitou[_kaitouIndex] = 'c';
+            _kaitou[_kaitouIndex + 1] = 'c';
+            _kaitou.Insert(_kaitouIndex + 2, 'h');
             return 2;
         }
 
         //「l」と「x」
         if (inputMoji == 'x' && currentMoji == 'l')
         {
-            _romaji[_romajiIndex] = 'x';
+            _kaitou[_kaitouIndex] = 'x';
             return 2;
         }
 
         if (inputMoji == 'l' && currentMoji == 'x')
         {
-            _romaji[_romajiIndex] = 'l';
+            _kaitou[_kaitouIndex] = 'l';
             return 2;
         }
 
@@ -557,6 +574,9 @@ public class TypingManager : MonoBehaviour
     // 問題の初期化の関数
     void Initi_Question()
     {
+        _textMondai.text = "";
+        _textRomaji.text = "";
+
         // 乱数で数値を生成
         int _random = UnityEngine.Random.Range(0, _questions.Length);
 
@@ -564,27 +584,26 @@ public class TypingManager : MonoBehaviour
         Question question = _questions[_random];
 
         // 要素数を初期化
-        _romajiIndex = 0;
+        _kaitouIndex = 0;
 
         // リストの中身を空にする
-        _romaji.Clear();
+        _kaitou.Clear();
 
         // Question.romaji（String型）をChar型の配列に変換
         char[] characters =question.romaji.ToCharArray();
 
-        // Questionクラスの配列を_romajiリストに追加する
+        // Questionクラスの配列を_kaitouリストに追加する
         foreach (char character in characters)
         {
-            _romaji.Add(character);
+            _kaitou.Add(character);
         }
 
         // 文字列の最期に空白を追加して、「タイピングの終わり」を示す
-        _romaji.Add(' ');
+        _kaitou.Add(' ');
 
-        //
-        _textTitle.text=question.title;
-        //
-        _textRomaji.text = Generate_Romaji();
+        StartCoroutine(Display_Wait(question));
+
+        _typeTime = typeTime;
     }
 
     // 入力前と入力後の文字の色を変化して表示
@@ -593,26 +612,39 @@ public class TypingManager : MonoBehaviour
         // 文字の色をタグ機能で指定
         string text = "<style=typed>";
 
-        // _romajiリスト分処理を繰り返す
-        for (int i = 0; i < _romaji.Count; i++)
+        // _kaitouリスト分処理を繰り返す
+        for (int i = 0; i < _kaitou.Count; i++)
         {
             // 文字が空白あったら処理を飛ばす
-            if (_romaji[i] == ' ')
+            if (_kaitou[i] == ' ')
             {
                 break;
             }
             // リストの要素数を合っていた場合に色を変える
-            if (i == _romajiIndex)
+            if (i == _kaitouIndex)
             {
                 text += "</style><style=untyped>";
             }
 
             // 文字を代入する
-            text += _romaji[i];
+            text += _kaitou[i];
         }
         // 文字の色を変える
         text += "</style>";
 
         return text;
+    }
+
+    private IEnumerator Display_Wait(Question question)
+    {
+        yield return new WaitForSeconds(intervalWaitMoji);
+
+        //問題を表示する
+        _textMondai.text = question.mondai;
+
+        yield return new WaitForSeconds(intervalWaitMoji);
+
+        // 文字の色を半透明色にする
+        _textRomaji.text = Generate_Romaji();
     }
 }

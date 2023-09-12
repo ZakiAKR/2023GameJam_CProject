@@ -6,7 +6,7 @@ using TMPro;
 
 // 時間計測の処理
 
-public class InGameManager : MonoBehaviour
+public class TimerManager : MonoBehaviour
 {
     // カウントダウンを表示させるtextを取得
     [SerializeField] TextMeshProUGUI countDown;
@@ -30,10 +30,10 @@ public class InGameManager : MonoBehaviour
     private int _count;
 
     // Startの表示時間
-    public int StartWaitTime;
+    public float StartWaitTime;
 
     // Finishの表示時間
-    public int FinishWaitTime;
+    public float FinishWaitTime;
 
     // 全体の時間を計測
     public float lifeTime;
@@ -41,10 +41,10 @@ public class InGameManager : MonoBehaviour
     private int _life;
 
     // Startに入る際の演出が終わったかどうかの判定
-    private bool _isCountDown;
+    public bool isCountDown;
 
     // 全体の時間が終わったかどうかの判定
-    private bool _isFinish;
+    public bool isFinish;
 
     // Start is called before the first frame update
     void Start()
@@ -56,8 +56,8 @@ public class InGameManager : MonoBehaviour
         _count = 0;
         _life = 0;
 
-        _isCountDown = false;
-        _isFinish = false;
+        isCountDown = false;
+        isFinish = false;
     }
 
     // Update is called once per frame
@@ -76,7 +76,7 @@ public class InGameManager : MonoBehaviour
             countDown.text= _count.ToString();
         }
         // _isCountDownの判定を付けるのは「Start」が表示されている時に全体の時間が計測されないようにするため
-        if (!_isCountDown && _countDown <= 0)
+        if (!isCountDown && _countDown <= 0)
         {
             // Startを表示するためのコルーチン
             StartCoroutine(Delay_StartText());
@@ -84,7 +84,7 @@ public class InGameManager : MonoBehaviour
 
         // 全体の時間の処理
         // _isFinishの判定を付けているのは「Finish」が表示されているときに全体の時間が計測されないようにするため
-        if (_isCountDown&&!_isFinish)
+        if (isCountDown && !isFinish)
         {
             // ゲーム全体の時間を減算していく
             lifeTime -= Time.deltaTime;
@@ -97,7 +97,7 @@ public class InGameManager : MonoBehaviour
         if (lifeTime <= 0)
         {
             // 全体の時間が終了した
-            _isFinish = true;
+            isFinish = true;
 
             // Finishを表示するためのコルーチン
             StartCoroutine(Delay_OverText());
@@ -118,7 +118,7 @@ public class InGameManager : MonoBehaviour
         countObj.SetActive(false);
 
         // カウントダウンが終了した
-        _isCountDown = true;
+        isCountDown = true;
     }
 
     // Finishを表示するためのコルーチン

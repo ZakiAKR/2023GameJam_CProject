@@ -7,23 +7,54 @@ using UnityEngine.SceneManagement;
 
 public class TranstionManager : MonoBehaviour
 {
+    public float seWaitTime;
+
+    private void Start()
+    {
+        Time.timeScale = 1;
+    }
+
     public void To_Title()
     {
-        SceneManager.LoadScene(0);
+        Time.timeScale = 1;
+        StartCoroutine(Sound_SceneSE(0));
     }
 
     public void To_Setting()
     {
-        SceneManager.LoadScene(1);
+        Time.timeScale = 1;
+        StartCoroutine(Sound_SceneSE(1));
     }
 
     public void To_Main()
     {
-        SceneManager.LoadScene(2);
+        Time.timeScale = 1;
+        StartCoroutine(Sound_SceneSE(2));
     }
 
     public void To_Result()
     {
-        SceneManager.LoadScene(3);
+        Time.timeScale = 1;
+        StartCoroutine(Sound_SceneSE(3));
+    }
+
+    public void End_Game()
+    {
+        Time.timeScale = 1;
+        StartCoroutine(Sound_EndSE());
+    }
+
+    private IEnumerator Sound_SceneSE(int numScene)
+    {
+        yield return new WaitForSeconds(seWaitTime);
+
+        SceneManager.LoadScene(numScene);
+    }
+
+    private IEnumerator Sound_EndSE()
+    {
+        yield return new WaitForSeconds(seWaitTime);
+
+        Application.Quit();
     }
 }
