@@ -632,10 +632,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '07 Rocknroll : mondai'
+  m_text: "07 Rocknroll : mondai \u554F\u984C\u3082"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 5a7b5b904481d0e45b21b8768e723773, type: 2}
-  m_sharedMaterial: {fileID: -6810536134410899790, guid: 5a7b5b904481d0e45b21b8768e723773,
+  m_fontAsset: {fileID: 11400000, guid: b107b8af4505822458e677beae32c416, type: 2}
+  m_sharedMaterial: {fileID: 6871410942187384133, guid: b107b8af4505822458e677beae32c416,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
