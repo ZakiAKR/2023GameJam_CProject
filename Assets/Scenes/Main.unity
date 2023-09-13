@@ -1045,7 +1045,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &534838669
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1726,55 +1726,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 823751337}
   m_CullTransparentMesh: 1
---- !u!1 &871266535
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 871266537}
-  - component: {fileID: 871266536}
-  m_Layer: 0
-  m_Name: Global Volume
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &871266536
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 871266535}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IsGlobal: 1
-  priority: 0
-  blendDistance: 0
-  weight: 1
-  sharedProfile: {fileID: 0}
---- !u!4 &871266537
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 871266535}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &873447641
 GameObject:
   m_ObjectHideFlags: 0
@@ -1793,7 +1744,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &873447642
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2534,6 +2485,80 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1001 &1252059260
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5654938894028599313, guid: 11e5181fa846d544fb51b2f7291da4b0,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5654938894028599313, guid: 11e5181fa846d544fb51b2f7291da4b0,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5654938894028599313, guid: 11e5181fa846d544fb51b2f7291da4b0,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5654938894028599313, guid: 11e5181fa846d544fb51b2f7291da4b0,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5654938894028599313, guid: 11e5181fa846d544fb51b2f7291da4b0,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5654938894028599313, guid: 11e5181fa846d544fb51b2f7291da4b0,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5654938894028599313, guid: 11e5181fa846d544fb51b2f7291da4b0,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5654938894028599313, guid: 11e5181fa846d544fb51b2f7291da4b0,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5654938894028599313, guid: 11e5181fa846d544fb51b2f7291da4b0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5654938894028599313, guid: 11e5181fa846d544fb51b2f7291da4b0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5654938894028599313, guid: 11e5181fa846d544fb51b2f7291da4b0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5654938894028599315, guid: 11e5181fa846d544fb51b2f7291da4b0,
+        type: 3}
+      propertyPath: m_Name
+      value: Global Volume
+      objectReference: {fileID: 0}
+    - target: {fileID: 5654938894028599315, guid: 11e5181fa846d544fb51b2f7291da4b0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 11e5181fa846d544fb51b2f7291da4b0, type: 3}
 --- !u!1 &1270614775
 GameObject:
   m_ObjectHideFlags: 0
@@ -3183,6 +3208,42 @@ MonoBehaviour:
     romaji: gyuunyuu
   - mondai: "\u7D0D\u8C46"
     romaji: nattou
+  - mondai: "\u30E9\u30C3\u30D7"
+    romaji: rappu
+  - mondai: "\u30AD\u30E3\u30C3\u30D7"
+    romaji: kyappu
+  - mondai: "\u30E9\u30C3\u30AF"
+    romaji: rakku
+  - mondai: "\u30AF\u30E9\u30C3\u30AF"
+    romaji: kurakku
+  - mondai: "\u30D3\u30FC\u30C8"
+    romaji: bi-to
+  - mondai: "\u30BF\u30A4\u30D7"
+    romaji: taipu
+  - mondai: "\u30DE\u30A4\u30AF"
+    romaji: maiku
+  - mondai: "\u679C\u5B9F"
+    romaji: kajitu
+  - mondai: "\u30E9\u30C7\u30A3\u30C3\u30B7\u30E5"
+    romaji: radhisshu
+  - mondai: "\u4ED5\u4E8B"
+    romaji: sigoto
+  - mondai: "\u8CB7\u3044\u7269"
+    romaji: kaimono
+  - mondai: "\u30D4\u30AF\u30CB\u30C3\u30AF"
+    romaji: pikunikku
+  - mondai: "\u30D7\u30C1\u30A7\u30D8\u30F3\u30B6"
+    romaji: putyohennza
+  - mondai: "\u30D0\u30A4\u30D6\u30B9"
+    romaji: baibusu
+  - mondai: "\u30C6\u30F3\u30B7\u30E7\u30F3"
+    romaji: tenshon
+  - mondai: "\u6771\u4EAC\u7279\u8A31\u8A31\u53EF\u5C40"
+    romaji: toukyoutokkyokyokakyoku
+  - mondai: "\u58BE\u7530\u6C38\u5E74\u79C1\u8CA1\u6CD5"
+    romaji: konndenneinennsizainohou
+  - mondai: "\u30D5\u30A1\u30F3\u30BF\u30B9\u30C6\u30A3\u30C3\u30AF"
+    romaji: fantasutelikku
   _textMondai: {fileID: 393210271}
   _textRomaji: {fileID: 1240845828}
   typeTime: 8
@@ -3367,7 +3428,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1764595671
 RectTransform:
   m_ObjectHideFlags: 0
