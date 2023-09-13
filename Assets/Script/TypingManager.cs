@@ -29,18 +29,19 @@ public class TypingManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI _textMondai;
     [SerializeField] TextMeshProUGUI _textRomaji;
 
-    // キーボードを打った回数を測定するための変数
-    private int _countMoji;
-
-    // ミスタイピングした数を測定するための変数
-    private int _missMoji;
-
     // 一問分の時間の値を保持するための変数
     public float typeTime;
     // 一問分の時間を測定するための変数
     private float _typeTime;
     // 一問分の時間の値をtextで表示するための変数
     private int _type;
+
+    private int _count;
+    private int _miss;
+
+    [SerializeField] CountManager _countSystem;
+
+    [SerializeField] TextMeshProUGUI _mondaiTime;
 
     // カウントダウン後に問題と解答を表示したいため、「TimerManager」を取得
     [SerializeField] public TimerManager _timeSystem;
@@ -65,6 +66,12 @@ public class TypingManager : MonoBehaviour
             {
                 // 一問分の時間を計測
                 _typeTime -= Time.deltaTime;
+
+                // 
+                _type = (int)_typeTime;
+
+                // 
+                _mondaiTime.text = _type.ToString();
             }
             if (_typeTime <= 0)
             {
@@ -72,6 +79,8 @@ public class TypingManager : MonoBehaviour
                 Initi_Question();
             }
         }
+        CountManager.countMojiNum = _count;
+        CountManager.missMojiNum = _miss;
     }
 
     // キー入力時に呼び出されるイベント関数
@@ -94,7 +103,7 @@ public class TypingManager : MonoBehaviour
                     else
                     {
                         // 文字を打った数を測定
-                        _countMoji++;
+                        _count++;
 
                         // 文字の色を変える
                         _textRomaji.text = Generate_Romaji();
@@ -102,10 +111,10 @@ public class TypingManager : MonoBehaviour
                     break;
                  case 3:
                     // ミスタイピングの数を測定
-                    _missMoji++;
+                    _miss++;
 
                     //文字を打った数を測定
-                    _countMoji++;
+                    _count++;
                     break;
             }
         }
