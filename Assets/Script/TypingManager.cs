@@ -5,9 +5,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-// ƒ^ƒCƒsƒ“ƒO•”•ª‚Ìˆ—
+// ã‚¿ã‚¤ãƒ”ãƒ³ã‚°éƒ¨åˆ†ã®å‡¦ç†
 
-// ƒCƒ“ƒXƒyƒNƒ^[ã‚©‚ç•¶š—ñ‚ğ•Ïío—ˆ‚é‚æ‚¤‚É‚·‚é
+// ã‚¤ãƒ³ã‚¹ãƒšã‚¯ã‚¿ãƒ¼ä¸Šã‹ã‚‰æ–‡å­—åˆ—ã‚’å¤‰ç¨®å‡ºæ¥ã‚‹ã‚ˆã†ã«ã™ã‚‹
 [Serializable]
 public class Question
 {
@@ -17,23 +17,23 @@ public class Question
 
 public class TypingManager : MonoBehaviour
 {
-    // ƒ^ƒCƒsƒ“ƒO‚Ìó‘Ô‚ğŠi”[‚·‚éƒŠƒXƒg‚Ì•Ï”
+    // ã‚¿ã‚¤ãƒ”ãƒ³ã‚°ã®çŠ¶æ…‹ã‚’æ ¼ç´ã™ã‚‹ãƒªã‚¹ãƒˆã®å¤‰æ•°
     private List<char> _kaitou = new List<char>();
-    // ƒŠƒXƒg‚Ì”z—ñ‚Ì—v‘f”‚Åg—p‚³‚ê‚Ä‚¢‚é•Ï”
+    // ãƒªã‚¹ãƒˆã®é…åˆ—ã®è¦ç´ æ•°ã§ä½¿ç”¨ã•ã‚Œã¦ã„ã‚‹å¤‰æ•°
     private int _kaitouIndex = 0;
 
-    // ƒCƒ“ƒXƒ^ƒ“ƒX‚ğ¶¬‚·‚é
+    // ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç”Ÿæˆã™ã‚‹
     [SerializeField] Question[] _questions = new Question[12];
 
-    // ‰æ–Ê‚É•\¦‚·‚é‚½‚ß‚ÌTextMeshPro‚ğŠi”[‚·‚é•Ï”
+    // ç”»é¢ã«è¡¨ç¤ºã™ã‚‹ãŸã‚ã®TextMeshProã‚’æ ¼ç´ã™ã‚‹å¤‰æ•°
     [SerializeField] TextMeshProUGUI _textMondai;
     [SerializeField] TextMeshProUGUI _textRomaji;
 
-    // ˆê–â•ª‚ÌŠÔ‚Ì’l‚ğ•Û‚·‚é‚½‚ß‚Ì•Ï”
+    // ä¸€å•åˆ†ã®æ™‚é–“ã®å€¤ã‚’ä¿æŒã™ã‚‹ãŸã‚ã®å¤‰æ•°
     public float typeTime;
-    // ˆê–â•ª‚ÌŠÔ‚ğ‘ª’è‚·‚é‚½‚ß‚Ì•Ï”
+    // ä¸€å•åˆ†ã®æ™‚é–“ã‚’æ¸¬å®šã™ã‚‹ãŸã‚ã®å¤‰æ•°
     private float _typeTime;
-    // ˆê–â•ª‚ÌŠÔ‚Ì’l‚ğtext‚Å•\¦‚·‚é‚½‚ß‚Ì•Ï”
+    // ä¸€å•åˆ†ã®æ™‚é–“ã®å€¤ã‚’textã§è¡¨ç¤ºã™ã‚‹ãŸã‚ã®å¤‰æ•°
     private int _type;
 
     private int _count;
@@ -43,28 +43,28 @@ public class TypingManager : MonoBehaviour
 
     [SerializeField] TextMeshProUGUI _mondaiTime;
 
-    // ƒJƒEƒ“ƒgƒ_ƒEƒ“Œã‚É–â‘è‚Æ‰ğ“š‚ğ•\¦‚µ‚½‚¢‚½‚ßAuTimerManagerv‚ğæ“¾
+    // ã‚«ã‚¦ãƒ³ãƒˆãƒ€ã‚¦ãƒ³å¾Œã«å•é¡Œã¨è§£ç­”ã‚’è¡¨ç¤ºã—ãŸã„ãŸã‚ã€ã€ŒTimerManagerã€ã‚’å–å¾—
     [SerializeField] public TimerManager _timeSystem;
 
-    // –â‘è‚Æ‰ğ“š‚ğ•\¦‚·‚éŠÔŠu‚Ì•Ï”
+    // å•é¡Œã¨è§£ç­”ã‚’è¡¨ç¤ºã™ã‚‹é–“éš”ã®å¤‰æ•°
     public float intervalWaitMoji;
 
     // Start is called before the first frame update
     void Start()
     {
-        // ‰Šú‰»
+        // åˆæœŸåŒ–
         _typeTime = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-        // ƒJƒEƒ“ƒgƒ_ƒEƒ“Œã‚Å‚©‚ÂA‘S‘Ì‚ÌŠÔ“à‚Å‚Ìˆ—‚ğ‚³‚¹‚é
+        // ã‚«ã‚¦ãƒ³ãƒˆãƒ€ã‚¦ãƒ³å¾Œã§ã‹ã¤ã€å…¨ä½“ã®æ™‚é–“å†…ã§ã®å‡¦ç†ã‚’ã•ã›ã‚‹
         if(_timeSystem.isCountDown&& !_timeSystem.isFinish)
         {
             if (_typeTime >= 0)
             {
-                // ˆê–â•ª‚ÌŠÔ‚ğŒv‘ª
+                // ä¸€å•åˆ†ã®æ™‚é–“ã‚’è¨ˆæ¸¬
                 _typeTime -= Time.deltaTime;
 
                 // 
@@ -75,7 +75,7 @@ public class TypingManager : MonoBehaviour
             }
             if (_typeTime <= 0)
             {
-                // –â‘è‚Ì‰Šú‰»‚ÌŠÖ”‚ğŒÄ‚Ño‚µ
+                // å•é¡Œã®åˆæœŸåŒ–ã®é–¢æ•°ã‚’å‘¼ã³å‡ºã—
                 Initi_Question();
             }
         }
@@ -83,44 +83,44 @@ public class TypingManager : MonoBehaviour
         CountManager.missMojiNum = _miss;
     }
 
-    // ƒL[“ü—Í‚ÉŒÄ‚Ño‚³‚ê‚éƒCƒxƒ“ƒgŠÖ”
+    // ã‚­ãƒ¼å…¥åŠ›æ™‚ã«å‘¼ã³å‡ºã•ã‚Œã‚‹ã‚¤ãƒ™ãƒ³ãƒˆé–¢æ•°
     private void OnGUI()
     {
         if (Event.current.type == EventType.KeyDown)
         {
-            // “ü—Í‚³‚ê‚½ƒL[ƒR[ƒh‚ğ•ÏŠ·‚µ‚ÄA•ÏŠ·‚µ‚½•¶š‚ª³‚µ‚¢•¶š‚ª”»’è‚µ‚½Œ‹‰Ê‚ÉŒ‚Á‚Äˆ—‚ª•Ï‚í‚é
+            // å…¥åŠ›ã•ã‚ŒãŸã‚­ãƒ¼ã‚³ãƒ¼ãƒ‰ã‚’å¤‰æ›ã—ã¦ã€å¤‰æ›ã—ãŸæ–‡å­—ãŒæ­£ã—ã„æ–‡å­—ãŒåˆ¤å®šã—ãŸçµæœã«é…”ã£ã¦å‡¦ç†ãŒå¤‰ã‚ã‚‹
             switch (InputKey(GetChange_KeyCode(Event.current.keyCode)))
             {
                 case 1:
                 case 2:
-                    // ˆê‚Â—v‘f”‚ğ‰ÁZ‚·‚é‚±‚Æ‚Å‚±‚Ì•¶š‚ª‹ó”’‚¾‚Á‚½ê‡A–â‘è‚ğ‰Šú‰»‚µ‚ÄV‚µ‚¢–â‘è‚ğo‚·B‚»‚êˆÈŠO‚Í•¶š‚ÌF‚ğ•Ï‚¦‚éB
+                    // ä¸€ã¤è¦ç´ æ•°ã‚’åŠ ç®—ã™ã‚‹ã“ã¨ã§ã“ã®æ–‡å­—ãŒç©ºç™½ã ã£ãŸå ´åˆã€å•é¡Œã‚’åˆæœŸåŒ–ã—ã¦æ–°ã—ã„å•é¡Œã‚’å‡ºã™ã€‚ãã‚Œä»¥å¤–ã¯æ–‡å­—ã®è‰²ã‚’å¤‰ãˆã‚‹ã€‚
                     _kaitouIndex++;
                     if (_kaitou[_kaitouIndex] == ' ')
                     {
-                        // –â‘è‚Ì‰Šú‰»‚ÌŠÖ”‚ğŒÄ‚Ño‚µ
+                        // å•é¡Œã®åˆæœŸåŒ–ã®é–¢æ•°ã‚’å‘¼ã³å‡ºã—
                         Initi_Question();
                     }
                     else
                     {
-                        // •¶š‚ğ‘Å‚Á‚½”‚ğ‘ª’è
+                        // æ–‡å­—ã‚’æ‰“ã£ãŸæ•°ã‚’æ¸¬å®š
                         _count++;
 
-                        // •¶š‚ÌF‚ğ•Ï‚¦‚é
+                        // æ–‡å­—ã®è‰²ã‚’å¤‰ãˆã‚‹
                         _textRomaji.text = Generate_Romaji();
                     }
                     break;
                  case 3:
-                    // ƒ~ƒXƒ^ƒCƒsƒ“ƒO‚Ì”‚ğ‘ª’è
+                    // ãƒŸã‚¹ã‚¿ã‚¤ãƒ”ãƒ³ã‚°ã®æ•°ã‚’æ¸¬å®š
                     _miss++;
 
-                    //•¶š‚ğ‘Å‚Á‚½”‚ğ‘ª’è
+                    //æ–‡å­—ã‚’æ‰“ã£ãŸæ•°ã‚’æ¸¬å®š
                     _count++;
                     break;
             }
         }
     }
 
-    //“ü—Í‚ª³‚µ‚¢‚©‚ğ”»’è‚·‚éŠÖ”
+    //å…¥åŠ›ãŒæ­£ã—ã„ã‹ã‚’åˆ¤å®šã™ã‚‹é–¢æ•°
     int InputKey(char inputMoji)
     {
         char prevChar3 = _kaitouIndex >= 3 ? _kaitou[_kaitouIndex - 3] : '\0';
@@ -132,22 +132,22 @@ public class TypingManager : MonoBehaviour
         char nextChar = _kaitou[_kaitouIndex + 1];
         char nextChar2 = nextChar == ' ' ? ' ' : _kaitou[_kaitouIndex + 2];
 
-        // “ü—Í‚ª–³‚¢ê‡
+        // å…¥åŠ›ãŒç„¡ã„å ´åˆ
         if (inputMoji == '\0')
         {
             return 0;
         }
 
-        // “ü—Í‚ª³‚µ‚¢ê‡
+        // å…¥åŠ›ãŒæ­£ã—ã„å ´åˆ
         if (inputMoji == currentMoji)
         {
             return 1;
         }
 
-        //u‚¢v
+        //ã€Œã„ã€
         if (inputMoji == 'y' && currentMoji == 'i' &&
             (prevChar == '\0' || prevChar == 'a' || prevChar == 'i' || prevChar == 'u' || prevChar == 'e' ||
-             prevChar == 'o'))
+             prevChar == 'o' || prevChar == 'l' || prevChar == 'x'))
         {
             _kaitou.Insert(_kaitouIndex, 'y');
             return 2;
@@ -166,7 +166,7 @@ public class TypingManager : MonoBehaviour
             return 2;
         }
 
-        //u‚¤v
+        //ã€Œã†ã€
         if (inputMoji == 'w' && currentMoji == 'u' && (prevChar == '\0' || prevChar == 'a' || prevChar == 'i' ||
                                                        prevChar == 'u' || prevChar == 'e' || prevChar == 'o'))
         {
@@ -192,8 +192,24 @@ public class TypingManager : MonoBehaviour
             _kaitou.Insert(_kaitouIndex, 'h');
             return 2;
         }
+        
+        //ã€Œã‡ã€
+        if (inputMoji == 'y' && currentMoji == 'e' && (prevChar == 'l' || prevChar == 'x'))
+        {
+            _kaitou.Insert(_kaitouIndex, 'y');
+            return 2;
+        }
 
-        //u‚©vu‚­vu‚±v
+        //ã€Œãƒ´ã€
+        if (inputMoji == 'u' && prevChar == 'v' &&
+            (currentMoji == 'a' || currentMoji == 'i' || currentMoji == 'e' || currentMoji == 'o'))
+        {
+            _kaitou.Insert(_kaitouIndex, 'u');
+            _kaitou.Insert(_kaitouIndex + 1, 'l');
+            return 2;
+        }
+
+        //ã€Œã‹ã€ã€Œãã€ã€Œã“ã€
         if (inputMoji == 'c' && prevChar != 'k' &&
             currentMoji == 'k' && (nextChar == 'a' || nextChar == 'u' || nextChar == 'o'))
         {
@@ -201,35 +217,41 @@ public class TypingManager : MonoBehaviour
             return 2;
         }
 
-        //u‚­v
+        //ã€Œãã€
         if (inputMoji == 'q' && prevChar != 'k' && currentMoji == 'k' && nextChar == 'u')
         {
             _kaitou[_kaitouIndex] = 'q';
             return 2;
         }
 
-        //u‚µv
+        //ã€Œã—ã€
         if (inputMoji == 'h' && prevChar == 's' && currentMoji == 'i')
         {
             _kaitou.Insert(_kaitouIndex, 'h');
             return 2;
         }
 
-        //u‚¶v
+        //ã€Œã˜ã€
         if (inputMoji == 'j' && currentMoji == 'z' && nextChar == 'i')
         {
             _kaitou[_kaitouIndex] = 'j';
             return 2;
         }
 
-        //u‚µ‚ávu‚µ‚ãvu‚µ‚¥vu‚µ‚åv
+        if (inputMoji == 'z' && currentMoji == 'j' && nextChar == 'i')
+        {
+            _kaitou[_kaitouIndex] = 'z';
+            return 2;
+        }
+
+        //ã€Œã—ã‚ƒã€ã€Œã—ã‚…ã€ã€Œã—ã‡ã€ã€Œã—ã‚‡ã€
         if (inputMoji == 'h' && prevChar == 's' && currentMoji == 'y')
         {
             _kaitou[_kaitouIndex] = 'h';
             return 2;
         }
 
-        //u‚¶‚ávu‚¶‚ãvu‚¶‚¥vu‚¶‚åv
+        //ã€Œã˜ã‚ƒã€ã€Œã˜ã‚…ã€ã€Œã˜ã‡ã€ã€Œã˜ã‚‡ã€
         if (inputMoji == 'z' && prevChar != 'j' && currentMoji == 'j' &&
             (nextChar == 'a' || nextChar == 'u' || nextChar == 'e' || nextChar == 'o'))
         {
@@ -238,7 +260,7 @@ public class TypingManager : MonoBehaviour
             return 2;
         }
 
-        //u‚µvu‚¹v
+        //ã€Œã—ã€ã€Œã›ã€
         if ( inputMoji == 'c' && prevChar != 's' && currentMoji == 's' &&
             (nextChar == 'i' || nextChar == 'e'))
         {
@@ -246,7 +268,7 @@ public class TypingManager : MonoBehaviour
             return 2;
         }
 
-        //u‚¿v
+        //ã€Œã¡ã€
         if (inputMoji == 'c' && prevChar != 't' && currentMoji == 't' && nextChar == 'i')
         {
             _kaitou[_kaitouIndex] = 'c';
@@ -254,28 +276,28 @@ public class TypingManager : MonoBehaviour
             return 2;
         }
 
-        //u‚¿‚ávu‚¿‚ãvu‚¿‚¥vu‚¿‚åv
+        //ã€Œã¡ã‚ƒã€ã€Œã¡ã‚…ã€ã€Œã¡ã‡ã€ã€Œã¡ã‚‡ã€
         if (inputMoji == 'c' && prevChar != 't' && currentMoji == 't' && nextChar == 'y')
         {
             _kaitou[_kaitouIndex] = 'c';
             return 2;
         }
 
-        //ucyav=>uchav
+        //ã€Œcyaã€=>ã€Œchaã€
         if (inputMoji == 'h' && prevChar == 'c' && currentMoji == 'y')
         {
             _kaitou[_kaitouIndex] = 'h';
             return 2;
         }
 
-        //u‚Âv
+        //ã€Œã¤ã€
         if (inputMoji == 's' && prevChar == 't' && currentMoji == 'u')
         {
             _kaitou.Insert(_kaitouIndex, 's');
             return 2;
         }
 
-        //u‚Â‚Ÿvu‚Â‚¡vu‚Â‚¥vu‚Â‚§v
+        //ã€Œã¤ãã€ã€Œã¤ãƒã€ã€Œã¤ã‡ã€ã€Œã¤ã‰ã€
         if (inputMoji == 'u' && prevChar == 't' && currentMoji == 's' &&
             (nextChar == 'a' || nextChar == 'i' || nextChar == 'e' || nextChar == 'o'))
         {
@@ -292,7 +314,7 @@ public class TypingManager : MonoBehaviour
             return 2;
         }
 
-        //u‚Ä‚¡v
+        //ã€Œã¦ãƒã€
         if (inputMoji == 'e' && prevChar == 't' && currentMoji == 'h' && nextChar == 'i')
         {
             _kaitou[_kaitouIndex] = 'e';
@@ -300,7 +322,7 @@ public class TypingManager : MonoBehaviour
             return 2;
         }
 
-        //u‚Å‚¡v
+        //ã€Œã§ãƒã€
         if (inputMoji == 'e' && prevChar == 'd' && currentMoji == 'h' && nextChar == 'i')
         {
             _kaitou[_kaitouIndex] = 'e';
@@ -308,7 +330,7 @@ public class TypingManager : MonoBehaviour
             return 2;
         }
 
-        //u‚Å‚ãv
+        //ã€Œã§ã‚…ã€
         if (inputMoji == 'e' && prevChar == 'd' && currentMoji == 'h' && nextChar == 'u')
         {
             _kaitou[_kaitouIndex] = 'e';
@@ -317,7 +339,7 @@ public class TypingManager : MonoBehaviour
             return 2;
         }
 
-        //u‚Æ‚£v
+        //ã€Œã¨ã…ã€
         if (inputMoji == 'o' && prevChar == 't' && currentMoji == 'w' && nextChar == 'u')
         {
             _kaitou[_kaitouIndex] = 'o';
@@ -325,7 +347,7 @@ public class TypingManager : MonoBehaviour
             return 2;
         }
 
-        //u‚Ç‚£v
+        //ã€Œã©ã…ã€
         if (inputMoji == 'o' && prevChar == 'd' && currentMoji == 'w' && nextChar == 'u')
         {
             _kaitou[_kaitouIndex] = 'o';
@@ -333,14 +355,14 @@ public class TypingManager : MonoBehaviour
             return 2;
         }
 
-        //u‚Óv
+        //ã€Œãµã€
         if (inputMoji == 'f' && currentMoji == 'h' && nextChar == 'u')
         {
             _kaitou[_kaitouIndex] = 'f';
             return 2;
         }
 
-        //u‚Ó‚Ÿvu‚Ó‚¡vu‚Ó‚¥vu‚Ó‚§v
+        //ã€Œãµãã€ã€Œãµãƒã€ã€Œãµã‡ã€ã€Œãµã‰ã€
         if (inputMoji == 'w' && prevChar == 'f' &&
             (currentMoji == 'a' || currentMoji == 'i' || currentMoji == 'e' || currentMoji == 'o'))
         {
@@ -372,7 +394,7 @@ public class TypingManager : MonoBehaviour
             _kaitou.Insert(_kaitouIndex + 1, 'x');
             return 2;
         }
-        //u‚ñv
+        //ã€Œã‚“ã€
         if (inputMoji == 'n' && prevChar2 != 'n' && prevChar == 'n' && currentMoji != 'a' && currentMoji != 'i' &&
             currentMoji != 'u' && currentMoji != 'e' && currentMoji != 'o' && currentMoji != 'y')
         {
@@ -395,7 +417,7 @@ public class TypingManager : MonoBehaviour
             return 2;
         }
 
-        //u‚«‚ávu‚É‚áv‚È‚Ç
+        //ã€Œãã‚ƒã€ã€Œã«ã‚ƒã€ãªã©
         if (inputMoji == 'i' && currentMoji == 'y' &&
             (prevChar == 'k' || prevChar == 's' || prevChar == 't' || prevChar == 'n' || prevChar == 'h' ||
              prevChar == 'm' || prevChar == 'r' || prevChar == 'g' || prevChar == 'z' || prevChar == 'd' ||
@@ -416,7 +438,7 @@ public class TypingManager : MonoBehaviour
             return 2;
         }
 
-        //u‚µ‚ávu‚¿‚áv‚È‚Ç
+        //ã€Œã—ã‚ƒã€ã€Œã¡ã‚ƒã€ãªã©
         if (inputMoji == 'i' &&
             (currentMoji == 'a' || currentMoji == 'u' || currentMoji == 'e' || currentMoji == 'o') &&
             (prevChar2 == 's' || prevChar2 == 'c') && prevChar == 'h')
@@ -436,7 +458,7 @@ public class TypingManager : MonoBehaviour
             return 2;
         }
 
-        //u‚µ‚áv‚ğucv
+        //ã€Œã—ã‚ƒã€ã‚’ã€Œcã€
         if (inputMoji == 'c' && currentMoji == 's' && prevChar != 's' && nextChar == 'y' &&
             (nextChar2 == 'a' || nextChar2 == 'u' || nextChar2 == 'e' || nextChar2 == 'o'))
         {
@@ -456,7 +478,7 @@ public class TypingManager : MonoBehaviour
             return 2;
         }
 
-        //u‚Áv
+        //ã€Œã£ã€
         if ((inputMoji == 'x' || inputMoji == 'l') &&
             (currentMoji == 'k' && nextChar == 'k' || currentMoji == 's' && nextChar == 's' ||
              currentMoji == 't' && nextChar == 't' || currentMoji == 'g' && nextChar == 'g' ||
@@ -470,7 +492,7 @@ public class TypingManager : MonoBehaviour
             return 2;
         }
 
-        //u‚Á‚©vu‚Á‚­vu‚Á‚±v
+        //ã€Œã£ã‹ã€ã€Œã£ãã€ã€Œã£ã“ã€
         if ( inputMoji == 'c' && currentMoji == 'k' && nextChar == 'k' &&
             (nextChar2 == 'a' || nextChar2 == 'u' || nextChar2 == 'o'))
         {
@@ -479,7 +501,7 @@ public class TypingManager : MonoBehaviour
             return 2;
         }
 
-        //u‚Á‚­v
+        //ã€Œã£ãã€
         if ( inputMoji == 'q' && currentMoji == 'k' && nextChar == 'k' && nextChar2 == 'u')
         {
             _kaitou[_kaitouIndex] = 'q';
@@ -487,7 +509,7 @@ public class TypingManager : MonoBehaviour
             return 2;
         }
 
-        //u‚Á‚µvu‚Á‚¹v
+        //ã€Œã£ã—ã€ã€Œã£ã›ã€
         if (inputMoji == 'c' && currentMoji == 's' && nextChar == 's' &&
         (nextChar2 == 'i' || nextChar2 == 'e'))
         {
@@ -496,7 +518,7 @@ public class TypingManager : MonoBehaviour
             return 2;
         }
 
-        //u‚Á‚¿‚ávu‚Á‚¿‚ãvu‚Á‚¿‚¥vu‚Á‚¿‚åv
+        //ã€Œã£ã¡ã‚ƒã€ã€Œã£ã¡ã‚…ã€ã€Œã£ã¡ã‡ã€ã€Œã£ã¡ã‚‡ã€
         if (inputMoji == 'c' && currentMoji == 't' && nextChar == 't' && nextChar2 == 'y')
         {
             _kaitou[_kaitouIndex] = 'c';
@@ -504,7 +526,7 @@ public class TypingManager : MonoBehaviour
             return 2;
         }
 
-        //u‚Á‚¿v
+        //ã€Œã£ã¡ã€
         if (inputMoji == 'c' && currentMoji == 't' && nextChar == 't' && nextChar2 == 'i')
         {
             _kaitou[_kaitouIndex] = 'c';
@@ -513,7 +535,7 @@ public class TypingManager : MonoBehaviour
             return 2;
         }
 
-        //ulv‚Æuxv
+        //ã€Œlã€ã¨ã€Œxã€
         if (inputMoji == 'x' && currentMoji == 'l')
         {
             _kaitou[_kaitouIndex] = 'x';
@@ -526,11 +548,11 @@ public class TypingManager : MonoBehaviour
             return 2;
         }
 
-        // “ü—Í‚ªŠÔˆá‚Á‚Ä‚¢‚éê‡
+        // å…¥åŠ›ãŒé–“é•ã£ã¦ã„ã‚‹å ´åˆ
         return 3;
     }
 
-    // “ü—Í‚³‚ê‚½ƒL[ƒR[ƒh‚ğcharŒ^‚É•ÏŠ·‚·‚éŠÖ”
+    // å…¥åŠ›ã•ã‚ŒãŸã‚­ãƒ¼ã‚³ãƒ¼ãƒ‰ã‚’charå‹ã«å¤‰æ›ã™ã‚‹é–¢æ•°
     char GetChange_KeyCode(KeyCode keyCode)
     {
         switch (keyCode)
@@ -596,84 +618,84 @@ public class TypingManager : MonoBehaviour
         }
     }
 
-    // –â‘è‚Ì‰Šú‰»‚ÌŠÖ”
+    // å•é¡Œã®åˆæœŸåŒ–ã®é–¢æ•°
     void Initi_Question()
     {
-        // text‚Ì•\¦‚ğÁ‚·
+        // textã®è¡¨ç¤ºã‚’æ¶ˆã™
         _textMondai.text = "";
         _textRomaji.text = "";
 
-        // —”‚Å”’l‚ğ¶¬
+        // ä¹±æ•°ã§æ•°å€¤ã‚’ç”Ÿæˆ
         int _random = UnityEngine.Random.Range(0, _questions.Length);
 
-        // QuestionƒNƒ‰ƒX‚É”z—ñ‚ğ’Ç‰Á
+        // Questionã‚¯ãƒ©ã‚¹ã«é…åˆ—ã‚’è¿½åŠ 
         Question question = _questions[_random];
 
-        // —v‘f”‚ğ‰Šú‰»
+        // è¦ç´ æ•°ã‚’åˆæœŸåŒ–
         _kaitouIndex = 0;
 
-        // ƒŠƒXƒg‚Ì’†g‚ğ‹ó‚É‚·‚é
+        // ãƒªã‚¹ãƒˆã®ä¸­èº«ã‚’ç©ºã«ã™ã‚‹
         _kaitou.Clear();
 
-        // Question.romajiiStringŒ^j‚ğCharŒ^‚Ì”z—ñ‚É•ÏŠ·
+        // Question.romajiï¼ˆStringå‹ï¼‰ã‚’Charå‹ã®é…åˆ—ã«å¤‰æ›
         char[] characters =question.romaji.ToCharArray();
 
-        // QuestionƒNƒ‰ƒX‚Ì”z—ñ‚ğ_kaitouƒŠƒXƒg‚É’Ç‰Á‚·‚é
+        // Questionã‚¯ãƒ©ã‚¹ã®é…åˆ—ã‚’_kaitouãƒªã‚¹ãƒˆã«è¿½åŠ ã™ã‚‹
         foreach (char character in characters)
         {
             _kaitou.Add(character);
         }
 
-        // •¶š—ñ‚ÌÅŠú‚É‹ó”’‚ğ’Ç‰Á‚µ‚ÄAuƒ^ƒCƒsƒ“ƒO‚ÌI‚í‚èv‚ğ¦‚·
+        // æ–‡å­—åˆ—ã®æœ€æœŸã«ç©ºç™½ã‚’è¿½åŠ ã—ã¦ã€ã€Œã‚¿ã‚¤ãƒ”ãƒ³ã‚°ã®çµ‚ã‚ã‚Šã€ã‚’ç¤ºã™
         _kaitou.Add(' ');
 
-        // –â‘è‚Æ‰ğ“š‚Ì•\¦‚·‚éƒ^ƒCƒ~ƒ“ƒO‚ğ‚¸‚ç‚·‚½‚ß‚ÌƒRƒ‹[ƒ`ƒ“
+        // å•é¡Œã¨è§£ç­”ã®è¡¨ç¤ºã™ã‚‹ã‚¿ã‚¤ãƒŸãƒ³ã‚°ã‚’ãšã‚‰ã™ãŸã‚ã®ã‚³ãƒ«ãƒ¼ãƒãƒ³
         StartCoroutine(Display_Wait(question));
 
-        // ˆê–â•ª‚ÌŠÔ‚ğ‰Šú‰»
+        // ä¸€å•åˆ†ã®æ™‚é–“ã‚’åˆæœŸåŒ–
         _typeTime = typeTime;
     }
 
-    // “ü—Í‘O‚Æ“ü—ÍŒã‚Ì•¶š‚ÌF‚ğ•Ï‰»‚µ‚Ä•\¦
+    // å…¥åŠ›å‰ã¨å…¥åŠ›å¾Œã®æ–‡å­—ã®è‰²ã‚’å¤‰åŒ–ã—ã¦è¡¨ç¤º
     string Generate_Romaji()
     {
-        // •¶š‚ÌF‚ğƒ^ƒO‹@”\‚Åw’è
+        // æ–‡å­—ã®è‰²ã‚’ã‚¿ã‚°æ©Ÿèƒ½ã§æŒ‡å®š
         string text = "<style=typed>";
 
-        // _kaitouƒŠƒXƒg•ªˆ—‚ğŒJ‚è•Ô‚·
+        // _kaitouãƒªã‚¹ãƒˆåˆ†å‡¦ç†ã‚’ç¹°ã‚Šè¿”ã™
         for (int i = 0; i < _kaitou.Count; i++)
         {
-            // •¶š‚ª‹ó”’‚ ‚Á‚½‚çˆ—‚ğ”ò‚Î‚·
+            // æ–‡å­—ãŒç©ºç™½ã‚ã£ãŸã‚‰å‡¦ç†ã‚’é£›ã°ã™
             if (_kaitou[i] == ' ')
             {
                 break;
             }
-            // ƒŠƒXƒg‚Ì—v‘f”‚ğ‡‚Á‚Ä‚¢‚½ê‡‚ÉF‚ğ•Ï‚¦‚é
+            // ãƒªã‚¹ãƒˆã®è¦ç´ æ•°ã‚’åˆã£ã¦ã„ãŸå ´åˆã«è‰²ã‚’å¤‰ãˆã‚‹
             if (i == _kaitouIndex)
             {
                 text += "</style><style=untyped>";
             }
 
-            // •¶š‚ğ‘ã“ü‚·‚é
+            // æ–‡å­—ã‚’ä»£å…¥ã™ã‚‹
             text += _kaitou[i];
         }
-        // •¶š‚ÌF‚ğ•Ï‚¦‚é
+        // æ–‡å­—ã®è‰²ã‚’å¤‰ãˆã‚‹
         text += "</style>";
 
         return text;
     }
 
-    // –â‘è‚Æ‰ğ“š‚ğ•\¦‚·‚éŠÔŠu‚ğ‹ó‚¯‚é‚½‚ß‚ÌŠÖ”
+    // å•é¡Œã¨è§£ç­”ã‚’è¡¨ç¤ºã™ã‚‹é–“éš”ã‚’ç©ºã‘ã‚‹ãŸã‚ã®é–¢æ•°
     private IEnumerator Display_Wait(Question question)
     {
         yield return new WaitForSeconds(intervalWaitMoji);
 
-        //–â‘è‚ğ•\¦‚·‚é
+        //å•é¡Œã‚’è¡¨ç¤ºã™ã‚‹
         _textMondai.text = question.mondai;
 
         yield return new WaitForSeconds(intervalWaitMoji);
 
-        // •¶š‚ÌF‚ğ”¼“§–¾F‚É‚·‚é
+        // æ–‡å­—ã®è‰²ã‚’åŠé€æ˜è‰²ã«ã™ã‚‹
         _textRomaji.text = Generate_Romaji();
     }
 }
