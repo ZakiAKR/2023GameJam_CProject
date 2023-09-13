@@ -194,7 +194,7 @@ public class TypingManager : MonoBehaviour
         }
         
         //「ぇ」
-        if (inputMoji == 'y' && currentMoji == 'e' && (prevChar == 'l'))
+        if (inputMoji == 'y' && currentMoji == 'e' && (prevChar == 'l' || prevChar == 'x'))
         {
             _kaitou.Insert(_kaitouIndex, 'y');
             return 2;
