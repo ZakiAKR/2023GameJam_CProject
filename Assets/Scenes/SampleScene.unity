@@ -161,6 +161,9 @@ MonoBehaviour:
   StartWaitTime: 1
   FinishWaitTime: 2
   lifeTime: 10
+  isCountDown: 0
+  isFinish: 0
+  _poseSystem: {fileID: 0}
 --- !u!4 &49314401
 Transform:
   m_ObjectHideFlags: 0
@@ -1096,7 +1099,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "07 Rocknroll : mondai \u554F\u984C\u3082\u3042\u308A"
+  m_text: "\u534D"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b107b8af4505822458e677beae32c416, type: 2}
   m_sharedMaterial: {fileID: 6871410942187384133, guid: b107b8af4505822458e677beae32c416,
@@ -1233,6 +1236,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 2d1cc5509453b22479f46b76373a3b1f, type: 3}
   - {fileID: 8300000, guid: 81246e0ee6437d945acbaaa5ec60e665, type: 3}
   - {fileID: 8300000, guid: ed3c466de2ca0a54492975be1ac64644, type: 3}
+  soundVolume: 0
+  maxVolume: 1
 --- !u!82 &1958203449
 AudioSource:
   m_ObjectHideFlags: 0

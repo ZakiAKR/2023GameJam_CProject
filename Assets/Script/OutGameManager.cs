@@ -115,5 +115,4 @@ public class OutGameManager : MonoBehaviour
         // ƒQ[ƒ€“à‚ÌŠÔ‚ği‚ß‚é
         Time.timeScale = 1;
     }
-
 }

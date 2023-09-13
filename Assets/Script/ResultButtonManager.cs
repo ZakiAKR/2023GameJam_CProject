@@ -9,8 +9,6 @@ public class ResultButtonManager : MonoBehaviour
     [SerializeField] GameObject _selectButton;
     private Vector3 _seleceScale;
 
-    private GameObject _button;
-
     //選択状態がサイズの変更時用の変数
     public float moveSpeed;  //サイズが変わるスピード
 
@@ -18,14 +16,6 @@ public class ResultButtonManager : MonoBehaviour
     public float maxTime;  //大きさが最大になる時間
     private float time;  //時間の保存用変数
     private bool enlarge = true;
-
-    public float transX;
-    public float transY;
-    public float transZ;
-
-    public float moveWaitTime;
-
-    private bool _isMove;
 
     // Start is called before the first frame update
     void Start()
@@ -35,14 +25,11 @@ public class ResultButtonManager : MonoBehaviour
         _seleceScale = _selectButton.transform.localScale;
 
         _selectButton.transform.localScale = Reset_ImageScale(_seleceScale);
-
-        _isMove = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-
         Scaling(_selectButton);
     }
 
