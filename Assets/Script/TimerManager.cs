@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEditor;
 
 // 時間計測の処理
 
@@ -45,6 +46,10 @@ public class TimerManager : MonoBehaviour
 
     // 全体の時間が終わったかどうかの判定
     public bool isFinish;
+
+    [SerializeField] public OutGameManager _poseSystem;
+
+    private float _poseTime;
 
     // Start is called before the first frame update
     void Start()
@@ -91,6 +96,8 @@ public class TimerManager : MonoBehaviour
 
             // textに表示するためにint型に変換
             _life = (int)lifeTime;
+
+            _poseTime = lifeTime;
 
             // ゲーム全体の残り時間を表示する
             lifeText.text = _life.ToString();

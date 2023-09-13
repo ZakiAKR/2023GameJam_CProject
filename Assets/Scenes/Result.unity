@@ -405,6 +405,7 @@ GameObject:
   m_Component:
   - component: {fileID: 372689896}
   - component: {fileID: 372689895}
+  - component: {fileID: 372689897}
   m_Layer: 0
   m_Name: ResultSystem
   m_TagString: Untagged
@@ -445,6 +446,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &372689897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 372689894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e9aa50259ff02f4bb2c31698a8acef8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _selectButton: {fileID: 1618883106}
+  moveSpeed: 10
+  scallSpeed: 1
+  maxTime: 1
+  transX: 0
+  transY: 0
+  transZ: 0
+  moveWaitTime: 3
 --- !u!1 &541552900
 GameObject:
   m_ObjectHideFlags: 0
@@ -503,7 +524,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 098c27001d1e747488214c7520cafe0e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a6c7d9aacf3e822478cc38c366c27819, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
