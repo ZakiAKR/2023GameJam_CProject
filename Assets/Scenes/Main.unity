@@ -357,18 +357,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe903ae0a060a854bb8e47d5c17fcf76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  countDown: {fileID: 814520364}
+  countDownText: {fileID: 814520364}
   countObj: {fileID: 814520362}
   lifeText: {fileID: 3745314}
   overText: {fileID: 823751339}
   overObj: {fileID: 823751337}
-  _transScene: {fileID: 240113959}
-  StartWaitTime: 1
-  FinishWaitTime: 2
-  lifeTime: 180
+  mondaiTimeText: {fileID: 1204219195}
+  transScene: {fileID: 240113959}
+  typeSystem: {fileID: 1657431785}
+  startWaitTime: 1
+  finishWaitTime: 2
   isCountDown: 0
   isFinish: 0
-  _poseSystem: {fileID: 1240660640}
+  lifeTime: 180
 --- !u!4 &159385695
 Transform:
   m_ObjectHideFlags: 0
@@ -510,7 +511,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &229833420
 GameObject:
@@ -1027,6 +1028,84 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &451920526
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 451920528}
+  - component: {fileID: 451920527}
+  m_Layer: 0
+  m_Name: AudioSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &451920527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 451920526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dd99f2b91f3d534391685ac676a7598, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _seAudioSource: {fileID: 1442340968}
+  seSound:
+  - {fileID: 8300000, guid: 7d3957106f3f83c418d72b72e9730a66, type: 3}
+  - {fileID: 8300000, guid: 081219aede647c4428b6a36c43ffee36, type: 3}
+  - {fileID: 8300000, guid: e2bcd4bb9b8bef24382874a542259d24, type: 3}
+  - {fileID: 8300000, guid: 123122171cf29c84f91942b69b6c874b, type: 3}
+  - {fileID: 8300000, guid: a0ded1f6ff3a03c4b8d54d6002c34bf2, type: 3}
+  - {fileID: 8300000, guid: 2d61befefeb340241be8220b0a1cd37b, type: 3}
+  - {fileID: 8300000, guid: 84b643cf67b99014db2d524c0ad9097b, type: 3}
+  - {fileID: 8300000, guid: be3ab8834917073409a95211e8ad4a2b, type: 3}
+  - {fileID: 8300000, guid: 27547ab22a4a5b04b9da3c0a7aa5516e, type: 3}
+  - {fileID: 8300000, guid: 02682545db1d0fc4f860228be49b49e9, type: 3}
+  - {fileID: 8300000, guid: 69882737d3db192439d470eab1aa5b95, type: 3}
+  - {fileID: 8300000, guid: e0487f4034481454ea0b656c391d6ace, type: 3}
+  - {fileID: 8300000, guid: d75614c24ce08394c8d889b18de39309, type: 3}
+  - {fileID: 8300000, guid: b6c2479dd4a700048ac89c392b65ba01, type: 3}
+  - {fileID: 8300000, guid: b20f9c3e1f454f845806689b84554dc4, type: 3}
+  - {fileID: 8300000, guid: 02637ee43746a564aa82a3bdc51eb25e, type: 3}
+  - {fileID: 8300000, guid: b1f4d401ca5c17b49830c86e6d183b70, type: 3}
+  - {fileID: 8300000, guid: 203249b8329971148867b019f04b9583, type: 3}
+  - {fileID: 8300000, guid: c4104478c0da94143af1d21b2d4bd1bb, type: 3}
+  - {fileID: 8300000, guid: ff237334f526c9848b67654e91e372b2, type: 3}
+  - {fileID: 8300000, guid: 214424daa7730c5488f2eee6565e9993, type: 3}
+  - {fileID: 8300000, guid: c16a4b90043978044b79b6edf1ec2eb9, type: 3}
+  - {fileID: 8300000, guid: 6f4fee749f86f924da440057fef4f371, type: 3}
+  - {fileID: 8300000, guid: 2d828a25b341c554d9bf23ce0daed3ec, type: 3}
+  - {fileID: 8300000, guid: e2548ddd3b08f1b428d445e1fcc35585, type: 3}
+  - {fileID: 8300000, guid: 2d1cc5509453b22479f46b76373a3b1f, type: 3}
+  - {fileID: 8300000, guid: 81246e0ee6437d945acbaaa5ec60e665, type: 3}
+  - {fileID: 8300000, guid: ed3c466de2ca0a54492975be1ac64644, type: 3}
+  _bgmAudioSource: {fileID: 187255327}
+  _poseAudioSource: {fileID: 2045279982}
+  soundVolume: 0.2
+  maxVolume: 1
+--- !u!4 &451920528
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 451920526}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 674.20624, y: 552.18286, z: 53.863815}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &534838668
 GameObject:
   m_ObjectHideFlags: 0
@@ -2281,21 +2360,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _timeSystem: {fileID: 159385694}
+  _audioSystem: {fileID: 451920527}
   _typeingSystem: {fileID: 1657431784}
-  _audioSource: {fileID: 1442340968}
-  _bgmAudioSource: {fileID: 187255327}
-  _poseAudioSource: {fileID: 2045279982}
   _endPanel: {fileID: 1093830252}
   _selectButton:
   - {fileID: 787563620}
   - {fileID: 635280556}
   - {fileID: 352738851}
-  soundVolume: 0.2
   _backButton:
   - {fileID: 1593715986}
   - {fileID: 1674292025}
   - {fileID: 1270614775}
-  _isPose: 0
+  isPose: 0
 --- !u!4 &1240660641
 Transform:
   m_ObjectHideFlags: 0
@@ -2645,7 +2721,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1442340969}
   - component: {fileID: 1442340968}
-  - component: {fileID: 1442340967}
   m_Layer: 0
   m_Name: SE Audio Source
   m_TagString: Untagged
@@ -2653,49 +2728,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1442340967
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1442340966}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5dd99f2b91f3d534391685ac676a7598, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sound:
-  - {fileID: 8300000, guid: 7d3957106f3f83c418d72b72e9730a66, type: 3}
-  - {fileID: 8300000, guid: 081219aede647c4428b6a36c43ffee36, type: 3}
-  - {fileID: 8300000, guid: e2bcd4bb9b8bef24382874a542259d24, type: 3}
-  - {fileID: 8300000, guid: 123122171cf29c84f91942b69b6c874b, type: 3}
-  - {fileID: 8300000, guid: a0ded1f6ff3a03c4b8d54d6002c34bf2, type: 3}
-  - {fileID: 8300000, guid: 2d61befefeb340241be8220b0a1cd37b, type: 3}
-  - {fileID: 8300000, guid: 84b643cf67b99014db2d524c0ad9097b, type: 3}
-  - {fileID: 8300000, guid: be3ab8834917073409a95211e8ad4a2b, type: 3}
-  - {fileID: 8300000, guid: 27547ab22a4a5b04b9da3c0a7aa5516e, type: 3}
-  - {fileID: 8300000, guid: 02682545db1d0fc4f860228be49b49e9, type: 3}
-  - {fileID: 8300000, guid: 69882737d3db192439d470eab1aa5b95, type: 3}
-  - {fileID: 8300000, guid: e0487f4034481454ea0b656c391d6ace, type: 3}
-  - {fileID: 8300000, guid: d75614c24ce08394c8d889b18de39309, type: 3}
-  - {fileID: 8300000, guid: b6c2479dd4a700048ac89c392b65ba01, type: 3}
-  - {fileID: 8300000, guid: b20f9c3e1f454f845806689b84554dc4, type: 3}
-  - {fileID: 8300000, guid: 02637ee43746a564aa82a3bdc51eb25e, type: 3}
-  - {fileID: 8300000, guid: b1f4d401ca5c17b49830c86e6d183b70, type: 3}
-  - {fileID: 8300000, guid: 203249b8329971148867b019f04b9583, type: 3}
-  - {fileID: 8300000, guid: c4104478c0da94143af1d21b2d4bd1bb, type: 3}
-  - {fileID: 8300000, guid: ff237334f526c9848b67654e91e372b2, type: 3}
-  - {fileID: 8300000, guid: 214424daa7730c5488f2eee6565e9993, type: 3}
-  - {fileID: 8300000, guid: c16a4b90043978044b79b6edf1ec2eb9, type: 3}
-  - {fileID: 8300000, guid: 6f4fee749f86f924da440057fef4f371, type: 3}
-  - {fileID: 8300000, guid: 2d828a25b341c554d9bf23ce0daed3ec, type: 3}
-  - {fileID: 8300000, guid: e2548ddd3b08f1b428d445e1fcc35585, type: 3}
-  - {fileID: 8300000, guid: 2d1cc5509453b22479f46b76373a3b1f, type: 3}
-  - {fileID: 8300000, guid: 81246e0ee6437d945acbaaa5ec60e665, type: 3}
-  - {fileID: 8300000, guid: ed3c466de2ca0a54492975be1ac64644, type: 3}
-  soundVolume: 0.2
-  maxVolume: 1
 --- !u!82 &1442340968
 AudioSource:
   m_ObjectHideFlags: 0
@@ -3050,7 +3082,7 @@ Transform:
   - {fileID: 737948067}
   - {fileID: 1789198090}
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1593131430
 GameObject:
@@ -3232,8 +3264,8 @@ MonoBehaviour:
     romaji: kaimono
   - mondai: "\u30D4\u30AF\u30CB\u30C3\u30AF"
     romaji: pikunikku
-  - mondai: "\u30D7\u30C1\u30A7\u30D8\u30F3\u30B6"
-    romaji: putyohennza
+  - mondai: "\u30D7\u30C1\u30E7\u30D8\u30F3\u30B6"
+    romaji: putyohenza
   - mondai: "\u30D0\u30A4\u30D6\u30B9"
     romaji: baibusu
   - mondai: "\u30C6\u30F3\u30B7\u30E7\u30F3"
@@ -3241,17 +3273,17 @@ MonoBehaviour:
   - mondai: "\u6771\u4EAC\u7279\u8A31\u8A31\u53EF\u5C40"
     romaji: toukyoutokkyokyokakyoku
   - mondai: "\u58BE\u7530\u6C38\u5E74\u79C1\u8CA1\u6CD5"
-    romaji: konndenneinennsizainohou
+    romaji: kondeneinensizainohou
   - mondai: "\u30D5\u30A1\u30F3\u30BF\u30B9\u30C6\u30A3\u30C3\u30AF"
     romaji: fantasutelikku
   - mondai: "\u30EA\u30EA\u30C3\u30AF"
     romaji: ririkku
   - mondai: "\u6DF7\u5165"
-    romaji: konnnyuu
+    romaji: konnyuu
   - mondai: "\u534D"
     romaji: manji
   - mondai: "\u30CB\u30FC\u30C8"
-    romaji: niito
+    romaji: ni-to
   - mondai: "\u30C0\u30A4\u30D6"
     romaji: daibu
   - mondai: "\u30DE\u30B8\u30C3\u30AF"
@@ -3263,9 +3295,9 @@ MonoBehaviour:
   - mondai: "\u30A4\u30FC\u30B8\u30FC\u30E2\u30FC\u30C9"
     romaji: i-ji-mo-do
   - mondai: "\u9ED2\u96FB\u8A71"
-    romaji: kurodennwa
+    romaji: kurodenwa
   - mondai: "\u30D0\u30B1\u30FC\u30B7\u30E7\u30F3"
-    romaji: bake-shonn
+    romaji: bake-shon
   - mondai: "\u30B2\u30FC\u30E0\u30B8\u30E3\u30E0"
     romaji: ge-mujamu
   - mondai: "\u30E6\u30CB\u30C6\u30A3\u30FC"
@@ -3273,15 +3305,15 @@ MonoBehaviour:
   - mondai: "\u60AA\u30AC\u30AD"
     romaji: warugaki
   - mondai: "\u30CA\u30D3\u30B2\u30FC\u30B7\u30E7\u30F3"
-    romaji: nabige-shonn
+    romaji: nabige-shon
   - mondai: "\u30DE\u30A4\u30AF\u30DD\u30C3\u30D7\u30B3\u30FC\u30F3"
-    romaji: maikupoppuko-nn
+    romaji: maikupoppuko-n
   - mondai: "\u6C34\u3092\u5F97\u305F\u9B5A"
     romaji: mizuwoetasakana
   - mondai: "\u30AF\u30EA\u30CB\u30C3\u30AF"
     romaji: kurinikku
   - mondai: "\u304A\u3093\u3076\u306B\u3060\u3063\u3053"
-    romaji: onnbunidakko
+    romaji: onbunidakko
   - mondai: "\u30CF\u30CB\u30FC\u30C8\u30E9\u30C3\u30D7"
     romaji: hani-torappu
   - mondai: "\u30D9\u30A4\u30AB\u30FC\u30D1\u30E9\u30C9\u30C3\u30AF\u30B9"
@@ -3289,26 +3321,23 @@ MonoBehaviour:
   - mondai: "\u30C8\u30ED\u30A4\u306E\u6728\u99AC"
     romaji: toroinomokuba
   - mondai: "\u8C5A\u9AA8\u30B9\u30FC\u30D7"
-    romaji: tonnkotusu-pu
+    romaji: tonkotusu-pu
   - mondai: "\u30ED\u30C3\u30AF\u30F3\u30ED\u30FC\u30E9\u30FC"
-    romaji: rokkunnro-ra-
+    romaji: rokkunro-ra-
   - mondai: "\u8C5A\u9AA8\u30E9\u30FC\u30E1\u30F3\u91A4\u6CB9\u30B9\u30C6\u30FC\u30AD"
-    romaji: tonnkotura-mennshouyusute-ki
+    romaji: tonkotura-menshouyusute-ki
   - mondai: "\u96E2\u5A5A\u5F01\u8B77\u58EB"
-    romaji: rikonnbenngosi
+    romaji: rikonbengosi
   - mondai: "\u95A2\u30F6\u539F\u306E\u6226\u3044"
     romaji: sekigaharanotatakai
   - mondai: "\u30E9\u30A4\u30C8\u30CB\u30F3\u30B0\u30B1\u30FC\u30D6\u30EB"
     romaji: raitoninguke-buru
   - mondai: "\u516C\u5171\u4EA4\u901A\u6A5F\u95A2"
-    romaji: koukyoukoutuukikann
+    romaji: koukyoukoutuukikan
   - mondai: "\u8CDE\u5473\u671F\u9650\u5207\u308C"
-    romaji: shoumikigenngire
+    romaji: shoumikigengire
   _textMondai: {fileID: 393210271}
   _textRomaji: {fileID: 1240845828}
-  typeTime: 8
-  _countSystem: {fileID: 1593131431}
-  _mondaiTime: {fileID: 1204219195}
   _timeSystem: {fileID: 159385694}
   intervalWaitMoji: 1.2
 --- !u!4 &1657431786
@@ -3705,5 +3734,5 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

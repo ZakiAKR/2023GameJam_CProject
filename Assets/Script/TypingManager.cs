@@ -2,10 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting;
 
-// タイピング部分の処理
+// タイピング部分のソースコード
 
 // インスペクター上から文字列を変種出来るようにする
 [Serializable]
@@ -17,75 +17,57 @@ public class Question
 
 public class TypingManager : MonoBehaviour
 {
+    //「Question」クラスのインスタンスを生成する
+    [SerializeField] private Question[] _questions = new Question[51];
+
+    [Space(10)]
+
+    // 問題の文字を表示するtextを取得
+    [SerializeField] private TextMeshProUGUI _textMondai;
+    // 解答の文字を表示するtextを取得
+    [SerializeField] private TextMeshProUGUI _textRomaji;
+
+    [Space(10)]
+
+    // カウントダウン後に問題と解答を表示したいため、「TimerManager」を取得
+    [SerializeField] public TimerManager _timeSystem;
+
+    [Space(10)]
+
+    // 問題と解答を表示する間隔の変数
+    public float intervalWaitMoji;
+
     // タイピングの状態を格納するリストの変数
     private List<char> _kaitou = new List<char>();
     // リストの配列の要素数で使用されている変数
     private int _kaitouIndex = 0;
 
-    // インスタンスを生成する
-    [SerializeField] Question[] _questions = new Question[12];
-
-    // 画面に表示するためのTextMeshProを格納する変数
-    [SerializeField] TextMeshProUGUI _textMondai;
-    [SerializeField] TextMeshProUGUI _textRomaji;
-
-    // 一問分の時間の値を保持するための変数
-    public float typeTime;
-    // 一問分の時間を測定するための変数
-    private float _typeTime;
-    // 一問分の時間の値をtextで表示するための変数
-    private int _type;
-
+    // 打った文字の数を計測する変数
     private int _count;
+    // 間違えて打った文字の数を数える変数
     private int _miss;
 
-    [SerializeField] CountManager _countSystem;
-
-    [SerializeField] TextMeshProUGUI _mondaiTime;
-
-    // カウントダウン後に問題と解答を表示したいため、「TimerManager」を取得
-    [SerializeField] public TimerManager _timeSystem;
-
-    // 問題と解答を表示する間隔の変数
-    public float intervalWaitMoji;
 
     // Start is called before the first frame update
     void Start()
     {
-        // 初期化
-        _typeTime = 0;
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        // カウントダウン後でかつ、全体の時間内での処理をさせる
-        if(_timeSystem.isCountDown&& !_timeSystem.isFinish)
-        {
-            if (_typeTime >= 0)
-            {
-                // 一問分の時間を計測
-                _typeTime -= Time.deltaTime;
-
-                // 
-                _type = (int)_typeTime;
-
-                // 
-                _mondaiTime.text = _type.ToString();
-            }
-            if (_typeTime <= 0)
-            {
-                // 問題の初期化の関数を呼び出し
-                Initi_Question();
-            }
-        }
+        // 打った文字の数を管理用の変数に代入
         CountManager.countMojiNum = _count;
+
+        // 間違えて打った文字の数を管理用の変数に代入
         CountManager.missMojiNum = _miss;
     }
 
     // キー入力時に呼び出されるイベント関数
     private void OnGUI()
     {
+        // 入力された情報がキーを押したときに入力の場合
         if (Event.current.type == EventType.KeyDown)
         {
             // 入力されたキーコードを変換して、変換した文字が正しい文字が判定した結果に酔って処理が変わる
@@ -95,6 +77,8 @@ public class TypingManager : MonoBehaviour
                 case 2:
                     // 一つ要素数を加算することでこの文字が空白だった場合、問題を初期化して新しい問題を出す。それ以外は文字の色を変える。
                     _kaitouIndex++;
+
+                    // 特定の文字が空白だった場合の処理
                     if (_kaitou[_kaitouIndex] == ' ')
                     {
                         // 問題の初期化の関数を呼び出し
@@ -109,10 +93,9 @@ public class TypingManager : MonoBehaviour
                         _textRomaji.text = Generate_Romaji();
                     }
                     break;
-                 case 3:
+                case 3:
                     // ミスタイピングの数を測定
                     _miss++;
-
                     //文字を打った数を測定
                     _count++;
                     break;
@@ -123,13 +106,21 @@ public class TypingManager : MonoBehaviour
     //入力が正しいかを判定する関数
     int InputKey(char inputMoji)
     {
-        char prevChar3 = _kaitouIndex >= 3 ? _kaitou[_kaitouIndex - 3] : '\0';
-        char prevChar2 = _kaitouIndex >= 2 ? _kaitou[_kaitouIndex - 2] : '\0';
+        // char 変数名 = 要素数が N または N 以上の場合 ? (true) N 前の文字の情報 : (false)null
+        // 入力してる文字の１つ前の解答の文字の情報を保存する変数
         char prevChar = _kaitouIndex >= 1 ? _kaitou[_kaitouIndex - 1] : '\0';
-        
+        // 入力してる文字の２つ前の解答の文字の情報を保存する変数
+        char prevChar2 = _kaitouIndex >= 2 ? _kaitou[_kaitouIndex - 2] : '\0';
+        // 入力してる文字の３つ前の解答の文字の情報を保存する変数
+        char prevChar3 = _kaitouIndex >= 3 ? _kaitou[_kaitouIndex - 3] : '\0';
+
+        // 解答に記載されている文字の情報を保存する変数
         char currentMoji = _kaitou[_kaitouIndex];
 
+        // 入力してる文字の１つ先の解答の文字の情報を保存する変数
         char nextChar = _kaitou[_kaitouIndex + 1];
+        // char 変数名 = 一つ先の文字が空白だった場合 ? (true) 空白 : (false)２つ先の文字の情報
+        // 入力してる文字の２つ先の解答の文字の情報を保存する変数
         char nextChar2 = nextChar == ' ' ? ' ' : _kaitou[_kaitouIndex + 2];
 
         // 入力が無い場合
@@ -144,72 +135,56 @@ public class TypingManager : MonoBehaviour
             return 1;
         }
 
-        //「い」
-        if (inputMoji == 'y' && currentMoji == 'i' &&
-            (prevChar == '\0' || prevChar == 'a' || prevChar == 'i' || prevChar == 'u' || prevChar == 'e' ||
-             prevChar == 'o'))
+        // 例外処理
+        //「い」の文字
+        // 入力された文字が「y」、解答の文字が「i」の場合 ※「っ」や「にゅ」などの文字と差別化するために一つ前の文字を「なし」「a」「i」「u」「e」「o」だった場合
+        if (inputMoji == 'y' && currentMoji == 'i' && (prevChar == '\0' || prevChar == 'a' || prevChar == 'i' || prevChar == 'u' || prevChar == 'e' || prevChar == 'o'))
         {
             _kaitou.Insert(_kaitouIndex, 'y');
+            _kaitou.Insert(_kaitouIndex + 1, 'i');
             return 2;
         }
-
-        if (inputMoji == 'y' && currentMoji == 'i' && prevChar == 'n' && prevChar2 == 'n' &&
-            prevChar3 != 'n')
+        // 入力された文字が「y」、解答の文字が「i」の場合 ※前の文字が「ん」で「n」[n]という解答の文字でかつ「□ゃ」行の文字と差別化するために３つ前の文字が「n」以外だった場合
+        if (inputMoji == 'y' && currentMoji == 'i' && prevChar == 'n' && prevChar2 == 'n' && prevChar3 != 'n')
         {
             _kaitou.Insert(_kaitouIndex, 'y');
+            _kaitou.Insert(_kaitouIndex + 1, 'i');
             return 2;
         }
-
+        // 入力された文字が「y」、解答の文字が「i」の場合　※前の文字が「ん」で「x」「n」という解答の文字だった場合
         if (inputMoji == 'y' && currentMoji == 'i' && prevChar == 'n' && prevChar2 == 'x')
         {
             _kaitou.Insert(_kaitouIndex, 'y');
+            _kaitou.Insert(_kaitouIndex + 1, 'i');
             return 2;
         }
 
-        //「う」
-        if (inputMoji == 'w' && currentMoji == 'u' && (prevChar == '\0' || prevChar == 'a' || prevChar == 'i' ||
-                                                       prevChar == 'u' || prevChar == 'e' || prevChar == 'o'))
+        //「う」の文字
+        // 入力された文字が「w」、解答の文字が「u」の場合 ※「っ」や「にゅ」などの文字と差別化するために一つ前の文字を「なし」「a」「i」「u」「e」「o」だった場合
+        if (inputMoji == 'w' && currentMoji == 'u' && (prevChar == '\0' || prevChar == 'a' || prevChar == 'i' || prevChar == 'u' || prevChar == 'e' || prevChar == 'o'))
         {
             _kaitou.Insert(_kaitouIndex, 'w');
+            _kaitou.Insert(_kaitouIndex + 1, 'u');
             return 2;
         }
 
-        if (inputMoji == 'w' && currentMoji == 'u' && prevChar == 'n' && prevChar2 == 'n' && prevChar3 != 'n')
-        {
-            _kaitou.Insert(_kaitouIndex, 'w');
-            return 2;
-        }
-
-        if (inputMoji == 'w' && currentMoji == 'u' && prevChar == 'n' && prevChar2 == 'x')
-        {
-            _kaitou.Insert(_kaitouIndex, 'w');
-            return 2;
-        }
-
-        if (inputMoji == 'h' && prevChar2 != 't' && prevChar2 != 'd' && prevChar == 'w' &&
-            currentMoji == 'u')
-        {
-            _kaitou.Insert(_kaitouIndex, 'h');
-            return 2;
-        }
 
         //「か」「く」「こ」
-        if (inputMoji == 'c' && prevChar != 'k' &&
-            currentMoji == 'k' && (nextChar == 'a' || nextChar == 'u' || nextChar == 'o'))
+        if (inputMoji == 'c' && currentMoji == 'k' && prevChar != 'k' && (nextChar == 'a' || nextChar == 'u' || nextChar == 'o'))
         {
             _kaitou[_kaitouIndex] = 'c';
             return 2;
         }
 
         //「く」
-        if (inputMoji == 'q' && prevChar != 'k' && currentMoji == 'k' && nextChar == 'u')
+        if (inputMoji == 'q' && currentMoji == 'k' && prevChar != 'k' && nextChar == 'u')
         {
             _kaitou[_kaitouIndex] = 'q';
             return 2;
         }
 
         //「し」
-        if (inputMoji == 'h' && prevChar == 's' && currentMoji == 'i')
+        if (inputMoji == 'h' && currentMoji == 'i' && prevChar == 's')
         {
             _kaitou.Insert(_kaitouIndex, 'h');
             return 2;
@@ -223,15 +198,14 @@ public class TypingManager : MonoBehaviour
         }
 
         //「しゃ」「しゅ」「しぇ」「しょ」
-        if (inputMoji == 'h' && prevChar == 's' && currentMoji == 'y')
+        if (inputMoji == 'h' && currentMoji == 'y' && prevChar == 's')
         {
             _kaitou[_kaitouIndex] = 'h';
             return 2;
         }
 
         //「じゃ」「じゅ」「じぇ」「じょ」
-        if (inputMoji == 'z' && prevChar != 'j' && currentMoji == 'j' &&
-            (nextChar == 'a' || nextChar == 'u' || nextChar == 'e' || nextChar == 'o'))
+        if (inputMoji == 'z' && currentMoji == 'j' && prevChar != 'j' && (nextChar == 'a' || nextChar == 'u' || nextChar == 'e' || nextChar == 'o'))
         {
             _kaitou[_kaitouIndex] = 'z';
             _kaitou.Insert(_kaitouIndex + 1, 'y');
@@ -239,15 +213,14 @@ public class TypingManager : MonoBehaviour
         }
 
         //「し」「せ」
-        if ( inputMoji == 'c' && prevChar != 's' && currentMoji == 's' &&
-            (nextChar == 'i' || nextChar == 'e'))
+        if (inputMoji == 'c' && currentMoji == 's' && prevChar != 's' && (nextChar == 'i' || nextChar == 'e'))
         {
             _kaitou[_kaitouIndex] = 'c';
             return 2;
         }
 
         //「ち」
-        if (inputMoji == 'c' && prevChar != 't' && currentMoji == 't' && nextChar == 'i')
+        if (inputMoji == 'c' && currentMoji == 't' && prevChar != 't' && nextChar == 'i')
         {
             _kaitou[_kaitouIndex] = 'c';
             _kaitou.Insert(_kaitouIndex + 1, 'h');
@@ -255,37 +228,35 @@ public class TypingManager : MonoBehaviour
         }
 
         //「ちゃ」「ちゅ」「ちぇ」「ちょ」
-        if (inputMoji == 'c' && prevChar != 't' && currentMoji == 't' && nextChar == 'y')
+        if (inputMoji == 'c' && currentMoji == 't' && prevChar != 't' && nextChar == 'y')
         {
             _kaitou[_kaitouIndex] = 'c';
             return 2;
         }
 
         //「cya」=>「cha」
-        if (inputMoji == 'h' && prevChar == 'c' && currentMoji == 'y')
+        if (inputMoji == 'h' && currentMoji == 'y' && prevChar == 'c')
         {
             _kaitou[_kaitouIndex] = 'h';
             return 2;
         }
 
         //「つ」
-        if (inputMoji == 's' && prevChar == 't' && currentMoji == 'u')
+        if (inputMoji == 's' && currentMoji == 'u' && prevChar == 't')
         {
             _kaitou.Insert(_kaitouIndex, 's');
             return 2;
         }
 
         //「つぁ」「つぃ」「つぇ」「つぉ」
-        if (inputMoji == 'u' && prevChar == 't' && currentMoji == 's' &&
-            (nextChar == 'a' || nextChar == 'i' || nextChar == 'e' || nextChar == 'o'))
+        if (inputMoji == 'u' && currentMoji == 's' && prevChar == 't' && (nextChar == 'a' || nextChar == 'i' || nextChar == 'e' || nextChar == 'o'))
         {
             _kaitou[_kaitouIndex] = 'u';
             _kaitou.Insert(_kaitouIndex + 1, 'x');
             return 2;
         }
 
-        if (inputMoji == 'u' && prevChar2 == 't' && prevChar == 's' &&
-            (currentMoji == 'a' || currentMoji == 'i' || currentMoji == 'e' || currentMoji == 'o'))
+        if (inputMoji == 'u' && (currentMoji == 'a' || currentMoji == 'i' || currentMoji == 'e' || currentMoji == 'o') && prevChar == 's' && prevChar2 == 't')
         {
             _kaitou.Insert(_kaitouIndex, 'u');
             _kaitou.Insert(_kaitouIndex + 1, 'x');
@@ -293,7 +264,7 @@ public class TypingManager : MonoBehaviour
         }
 
         //「てぃ」
-        if (inputMoji == 'e' && prevChar == 't' && currentMoji == 'h' && nextChar == 'i')
+        if (inputMoji == 'e' && currentMoji == 'h' && prevChar == 't' && nextChar == 'i')
         {
             _kaitou[_kaitouIndex] = 'e';
             _kaitou.Insert(_kaitouIndex + 1, 'x');
@@ -301,7 +272,7 @@ public class TypingManager : MonoBehaviour
         }
 
         //「でぃ」
-        if (inputMoji == 'e' && prevChar == 'd' && currentMoji == 'h' && nextChar == 'i')
+        if (inputMoji == 'e' && currentMoji == 'h' && prevChar == 'd' && nextChar == 'i')
         {
             _kaitou[_kaitouIndex] = 'e';
             _kaitou.Insert(_kaitouIndex + 1, 'x');
@@ -309,7 +280,7 @@ public class TypingManager : MonoBehaviour
         }
 
         //「でゅ」
-        if (inputMoji == 'e' && prevChar == 'd' && currentMoji == 'h' && nextChar == 'u')
+        if (inputMoji == 'e' && currentMoji == 'h' && prevChar == 'd' && nextChar == 'u')
         {
             _kaitou[_kaitouIndex] = 'e';
             _kaitou.Insert(_kaitouIndex + 1, 'x');
@@ -318,7 +289,7 @@ public class TypingManager : MonoBehaviour
         }
 
         //「とぅ」
-        if (inputMoji == 'o' && prevChar == 't' && currentMoji == 'w' && nextChar == 'u')
+        if (inputMoji == 'o' && currentMoji == 'w' && prevChar == 't' && nextChar == 'u')
         {
             _kaitou[_kaitouIndex] = 'o';
             _kaitou.Insert(_kaitouIndex + 1, 'x');
@@ -326,7 +297,7 @@ public class TypingManager : MonoBehaviour
         }
 
         //「どぅ」
-        if (inputMoji == 'o' && prevChar == 'd' && currentMoji == 'w' && nextChar == 'u')
+        if (inputMoji == 'o' && currentMoji == 'w' && prevChar == 'd' && nextChar == 'u')
         {
             _kaitou[_kaitouIndex] = 'o';
             _kaitou.Insert(_kaitouIndex + 1, 'x');
@@ -341,47 +312,43 @@ public class TypingManager : MonoBehaviour
         }
 
         //「ふぁ」「ふぃ」「ふぇ」「ふぉ」
-        if (inputMoji == 'w' && prevChar == 'f' &&
-            (currentMoji == 'a' || currentMoji == 'i' || currentMoji == 'e' || currentMoji == 'o'))
+        if (inputMoji == 'w' && (currentMoji == 'a' || currentMoji == 'i' || currentMoji == 'e' || currentMoji == 'o') && prevChar == 'f')
         {
             _kaitou.Insert(_kaitouIndex, 'w');
             return 2;
         }
 
-        if (inputMoji == 'y' && prevChar == 'f' && (currentMoji == 'i' || currentMoji == 'e'))
+        if (inputMoji == 'y' && (currentMoji == 'i' || currentMoji == 'e') && prevChar == 'f')
         {
             _kaitou.Insert(_kaitouIndex, 'y');
             return 2;
         }
 
-        if (inputMoji == 'h' && prevChar != 'f' && currentMoji == 'f' &&
-            (nextChar == 'a' || nextChar == 'i' || nextChar == 'e' || nextChar == 'o'))
+        if (inputMoji == 'h' && currentMoji == 'f' && prevChar != 'f' && (nextChar == 'a' || nextChar == 'i' || nextChar == 'e' || nextChar == 'o'))
         {
-    
-                _kaitou[_kaitouIndex] = 'h';
-                _kaitou.Insert(_kaitouIndex + 1, 'u');
-                _kaitou.Insert(_kaitouIndex + 2, 'x');
+
+            _kaitou[_kaitouIndex] = 'h';
+            _kaitou.Insert(_kaitouIndex + 1, 'u');
+            _kaitou.Insert(_kaitouIndex + 2, 'x');
 
             return 2;
         }
 
-        if (inputMoji == 'u' && prevChar == 'f' &&
-            (currentMoji == 'a' || currentMoji == 'i' || currentMoji == 'e' || currentMoji == 'o'))
+        if (inputMoji == 'u' && (currentMoji == 'a' || currentMoji == 'i' || currentMoji == 'e' || currentMoji == 'o') && prevChar == 'f')
         {
             _kaitou.Insert(_kaitouIndex, 'u');
             _kaitou.Insert(_kaitouIndex + 1, 'x');
             return 2;
         }
+
         //「ん」
-        if (inputMoji == 'n' && prevChar2 != 'n' && prevChar == 'n' && currentMoji != 'a' && currentMoji != 'i' &&
-            currentMoji != 'u' && currentMoji != 'e' && currentMoji != 'o' && currentMoji != 'y')
+        if (inputMoji == 'n' && currentMoji != 'a' && currentMoji != 'i' && currentMoji != 'u' && currentMoji != 'e' && currentMoji != 'o' && currentMoji != 'y' && prevChar == 'n' && prevChar2 != 'n')
         {
             _kaitou.Insert(_kaitouIndex, 'n');
             return 2;
         }
 
-        if (inputMoji == 'x' && prevChar != 'n' && currentMoji == 'n' && nextChar != 'a' && nextChar != 'i' &&
-            nextChar != 'u' && nextChar != 'e' && nextChar != 'o' && nextChar != 'y')
+        if (inputMoji == 'x' && currentMoji == 'n' && prevChar != 'n' && nextChar != 'a' && nextChar != 'i' && nextChar != 'u' && nextChar != 'e' && nextChar != 'o' && nextChar != 'y')
         {
             if (nextChar == 'n')
             {
@@ -397,9 +364,8 @@ public class TypingManager : MonoBehaviour
 
         //「きゃ」「にゃ」など
         if (inputMoji == 'i' && currentMoji == 'y' &&
-            (prevChar == 'k' || prevChar == 's' || prevChar == 't' || prevChar == 'n' || prevChar == 'h' ||
-             prevChar == 'm' || prevChar == 'r' || prevChar == 'g' || prevChar == 'z' || prevChar == 'd' ||
-             prevChar == 'b' || prevChar == 'p') &&
+            (prevChar == 'k' || prevChar == 's' || prevChar == 't' || prevChar == 'n' || prevChar == 'h' || prevChar == 'm' ||
+             prevChar == 'r' || prevChar == 'g' || prevChar == 'z' || prevChar == 'd' || prevChar == 'b' || prevChar == 'p') &&
             (nextChar == 'a' || nextChar == 'u' || nextChar == 'e' || nextChar == 'o'))
         {
             if (nextChar == 'e')
@@ -417,9 +383,7 @@ public class TypingManager : MonoBehaviour
         }
 
         //「しゃ」「ちゃ」など
-        if (inputMoji == 'i' &&
-            (currentMoji == 'a' || currentMoji == 'u' || currentMoji == 'e' || currentMoji == 'o') &&
-            (prevChar2 == 's' || prevChar2 == 'c') && prevChar == 'h')
+        if (inputMoji == 'i' && (currentMoji == 'a' || currentMoji == 'u' || currentMoji == 'e' || currentMoji == 'o') && prevChar == 'h' && (prevChar2 == 's' || prevChar2 == 'c'))
         {
             if (nextChar == 'e')
             {
@@ -437,8 +401,7 @@ public class TypingManager : MonoBehaviour
         }
 
         //「しゃ」を「c」
-        if (inputMoji == 'c' && currentMoji == 's' && prevChar != 's' && nextChar == 'y' &&
-            (nextChar2 == 'a' || nextChar2 == 'u' || nextChar2 == 'e' || nextChar2 == 'o'))
+        if (inputMoji == 'c' && currentMoji == 's' && prevChar != 's' && nextChar == 'y' && (nextChar2 == 'a' || nextChar2 == 'u' || nextChar2 == 'e' || nextChar2 == 'o'))
         {
             if (nextChar2 == 'e')
             {
@@ -471,8 +434,7 @@ public class TypingManager : MonoBehaviour
         }
 
         //「っか」「っく」「っこ」
-        if ( inputMoji == 'c' && currentMoji == 'k' && nextChar == 'k' &&
-            (nextChar2 == 'a' || nextChar2 == 'u' || nextChar2 == 'o'))
+        if (inputMoji == 'c' && currentMoji == 'k' && nextChar == 'k' && (nextChar2 == 'a' || nextChar2 == 'u' || nextChar2 == 'o'))
         {
             _kaitou[_kaitouIndex] = 'c';
             _kaitou[_kaitouIndex + 1] = 'c';
@@ -480,7 +442,7 @@ public class TypingManager : MonoBehaviour
         }
 
         //「っく」
-        if ( inputMoji == 'q' && currentMoji == 'k' && nextChar == 'k' && nextChar2 == 'u')
+        if (inputMoji == 'q' && currentMoji == 'k' && nextChar == 'k' && nextChar2 == 'u')
         {
             _kaitou[_kaitouIndex] = 'q';
             _kaitou[_kaitouIndex + 1] = 'q';
@@ -488,8 +450,7 @@ public class TypingManager : MonoBehaviour
         }
 
         //「っし」「っせ」
-        if (inputMoji == 'c' && currentMoji == 's' && nextChar == 's' &&
-        (nextChar2 == 'i' || nextChar2 == 'e'))
+        if (inputMoji == 'c' && currentMoji == 's' && nextChar == 's' && (nextChar2 == 'i' || nextChar2 == 'e'))
         {
             _kaitou[_kaitouIndex] = 'c';
             _kaitou[_kaitouIndex + 1] = 'c';
@@ -597,7 +558,7 @@ public class TypingManager : MonoBehaviour
     }
 
     // 問題の初期化の関数
-    void Initi_Question()
+    public void Initi_Question()
     {
         // textの表示を消す
         _textMondai.text = "";
@@ -616,7 +577,7 @@ public class TypingManager : MonoBehaviour
         _kaitou.Clear();
 
         // Question.romaji（String型）をChar型の配列に変換
-        char[] characters =question.romaji.ToCharArray();
+        char[] characters = question.romaji.ToCharArray();
 
         // Questionクラスの配列を_kaitouリストに追加する
         foreach (char character in characters)
@@ -627,11 +588,10 @@ public class TypingManager : MonoBehaviour
         // 文字列の最期に空白を追加して、「タイピングの終わり」を示す
         _kaitou.Add(' ');
 
+        TimerManager._typeTime = TimerManager.typeTime;
+
         // 問題と解答の表示するタイミングをずらすためのコルーチン
         StartCoroutine(Display_Wait(question));
-
-        // 一問分の時間を初期化
-        _typeTime = typeTime;
     }
 
     // 入力前と入力後の文字の色を変化して表示

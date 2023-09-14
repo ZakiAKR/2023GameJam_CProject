@@ -2,8 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// タイピングの打った文字と間違えて打った文字の数を管理するソースコード
+
 public class CountManager : MonoBehaviour
 {
-    public static int countMojiNum;
-    public static int missMojiNum;
+    // 打った文字の数を管理する変数
+    [HideInInspector] public static int countMojiNum;
+
+    // 間違えて打った文字の数を管理する変数
+    [HideInInspector] public static int missMojiNum;
 }
