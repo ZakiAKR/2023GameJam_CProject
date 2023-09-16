@@ -2009,7 +2009,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.98039216}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.8627451}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2631,7 +2631,7 @@ PrefabInstance:
     - target: {fileID: 5654938894028599315, guid: 11e5181fa846d544fb51b2f7291da4b0,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 11e5181fa846d544fb51b2f7291da4b0, type: 3}
@@ -3338,7 +3338,6 @@ MonoBehaviour:
     romaji: shoumikigengire
   _textMondai: {fileID: 393210271}
   _textRomaji: {fileID: 1240845828}
-  _timeSystem: {fileID: 159385694}
   intervalWaitMoji: 1.2
 --- !u!4 &1657431786
 Transform:

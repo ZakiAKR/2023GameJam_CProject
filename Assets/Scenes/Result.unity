@@ -433,6 +433,10 @@ MonoBehaviour:
   scallSize: 0.01
   maxTime: 1
   moveSpeed: 0.01
+  valuation:
+  - 0.8
+  - 0.5
+  - 0.2
 --- !u!4 &372689896
 Transform:
   m_ObjectHideFlags: 0

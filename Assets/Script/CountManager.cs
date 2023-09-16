@@ -11,4 +11,7 @@ public class CountManager : MonoBehaviour
 
     // ŠÔˆá‚¦‚Ä‘Å‚Á‚½•¶š‚Ì”‚ğŠÇ—‚·‚é•Ï”
     [HideInInspector] public static int missMojiNum;
+
+    // ‰ğ“š‚Æ‚µ‚Äo‚³‚ê‚½•¶š‚Ì”‚ğŠÇ—‚·‚é•Ï”
+    [HideInInspector] public static int kaitouMojiNum;
 }

@@ -61,9 +61,6 @@ public class OutGameManager : MonoBehaviour
             // ゲーム内の時間を止める
             Time.timeScale = 0f;
 
-            // InGameSystemを使用できなくする
-            _typeingSystem.SetActive(false);
-
             // BGM、SEに関しての処理
             _audioSystem.IsPose_Sound();
 
@@ -113,10 +110,6 @@ public class OutGameManager : MonoBehaviour
 
         // ゲーム内の時間を進める
         Time.timeScale = 1;
-
-        // InGameSystemを使用できるようにする
-        _typeingSystem.SetActive(true);
-
     }
 
     // 選択中と選択中以外のボタンの演出の関数

@@ -137,7 +137,7 @@ public class TimerManager : MonoBehaviour
         // カウントダウン後でかつ、全体の時間内での処理をさせる
         if (isCountDown && !isFinish)
         {
-            if (_typeTime >= 0)
+            if (_typeTime > 0)
             {
                 // 時間を計測して残り時間を表示する処理
                 // 時間を減らす
@@ -188,18 +188,5 @@ public class TimerManager : MonoBehaviour
 
         // リザルト画面を遷移する
         transScene.To_Result();
-    }
-
-    // 時間を計測して残り時間を表示する関数
-    void Process_TimeText(float measureTime,int changeTime,TextMeshProUGUI timeText,int sumTime)
-    {
-        // 時間を減らす
-        measureTime -= Time.deltaTime;
-
-        // textに表示するためにint型に変換
-        changeTime = (int)measureTime + sumTime;
-
-        // 残り時間を表示
-        timeText.text = changeTime.ToString();
     }
 }

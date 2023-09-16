@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.EventSystems;
+using UnityEngine.Rendering.Universal;
 
 // リザルト画面に関するソースコード
 
@@ -44,15 +45,33 @@ public class ResultManager : MonoBehaviour
     private int _countMoji;
     // 間違えて打った文字の数を保存する変数
     private int _missMoji;
+    // 解答の文字の数を保存する変数
+    private int _kaitouMoji;
+    // 文字を逃した数を計算して保存する変数
+    private float _notMoji;
+    // 計算結果を保存する変数
+    private int _totalPoint;
+
+    [Space(10)]
+
+    // 評価の基準となる割合を定義する変数
+    [Header("Valuation Ratio")]
+    public float[] valuation = new float[3];
+
+    // 解答の文字数と割合を計算した結果を保存する変数
+    private int[] _ratioPoint=new int[3];
 
     // Start is called before the first frame update
     void Start()
     {
-        // 参照した打った文字の数を保存用の変数に代入
+        // 打った文字の数を参照して保存用の変数に代入
         _countMoji = CountManager.countMojiNum;
 
-        // 参照した間違えて打った文字の数を保存用の変数に代入
+        // 間違いの文字の数を参照して保存用の変数に代入
         _missMoji = CountManager.missMojiNum;
+
+        // 解答の文字の数を参照して保存用の変数に代入
+        _kaitouMoji = CountManager.kaitouMojiNum;
 
         // 文字を表示しないようにする処理
         _mojiNum.text = "";
@@ -61,6 +80,16 @@ public class ResultManager : MonoBehaviour
 
         // 「戻る」のボタンを選択状態にしておく
         EventSystem.current.SetSelectedGameObject(_selectButton);
+
+        // 解答の文字を打てなかった文字数を計算
+        _notMoji = _kaitouMoji - _countMoji;
+
+        // 解答の文字数から割り出した割合を保存用の変数に代入
+        for (int i = 0; i < valuation.Length; i++)
+        {
+            _ratioPoint[i] = (int)(_kaitouMoji * valuation[i]);
+        }
+
     }
 
     // Update is called once per frame
@@ -86,25 +115,29 @@ public class ResultManager : MonoBehaviour
         yield return new WaitForSeconds(firstWaitTime);
 
         // 間違えて打った文字の数を表示する
-        _missNum.text = _missMoji.ToString();
+        _missNum.text = (_missMoji+(int)_notMoji).ToString();
 
         // 評価を表示するまでの待ちの時間
         yield return new WaitForSeconds(secondWaitTime);
 
         // 評価する基準の処理
-        if ((_countMoji / 10) <= _missMoji)
+        // 打った文字と間違えて打った文字の数と逃した数＊1.2倍の数を計算
+        _totalPoint = _countMoji - (_missMoji + (int)(_notMoji * 1.2f));
+
+        // 評価を文字で表示
+        if (_ratioPoint[0] <= _totalPoint)
         {
             _evalation.text = "A";
         }
-        else if ((_countMoji / 10) < _missMoji && (_countMoji / 30) >= _missMoji)
+        else if (_ratioPoint[0] > _totalPoint && _ratioPoint[1] <= _totalPoint)
         {
             _evalation.text = "B";
         }
-        else if ((_countMoji / 30) < _missMoji && (_countMoji / 70) >= _missMoji)
+        else if (_ratioPoint[1] > _totalPoint && _ratioPoint[2] <= _totalPoint)
         {
             _evalation.text = "C";
         }
-        else
+        else if(_ratioPoint[2] > _totalPoint)
         {
             _evalation.text = "D";
         }
